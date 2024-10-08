@@ -43,6 +43,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        forecasts.ToList().Sort();
         forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
     }
 

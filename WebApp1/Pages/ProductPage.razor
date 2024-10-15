@@ -5,18 +5,22 @@
 <EditForm Model="@aProduct" OnSubmit="@HandleSubmit" class="row p-3">
     <DataAnnotationsValidator />
     <ValidationSummary />
+    
     <div class="col-md-12 mb-3">
         <label for="Name">Name</label>
         <InputText id="Name" @bind-Value="aProduct.Name" class="form-control" />
     </div>
+    
     <div class="col-md-6 mb-3">
         <label for="Price">Price</label>
         <InputNumber id="Price" @bind-Value="aProduct.Price" class="form-control" />
     </div>
+    
     <div class="col-md-6 mb-3">
         <label for="PublishedDate">Published Date</label>
         <InputDate id="PublishedDate" @bind-Value="aProduct.PublishedDate" class="form-control" />
     </div>
+    
     <div class="col-md-12 mb-3">
         <label for="Description">Description</label>
         <InputTextArea id="Description" @bind-Value="aProduct.Description" class="form-control" />
@@ -31,18 +35,26 @@
 
     private Product aProduct = new Product();
 
-    //private EditContext? aEditContext;
-
-    protected override void OnInitialized()
-    {
-        //aEditContext = new EditContext(aProduct);
-    }
-
     private void HandleSubmit()
     {
-
+      Console.WriteLine($"Name: {aProduct.Name}, publiceret {aProduct.PublishedDate} - Pris: {aProduct.Price}");
     }
 
+    
+    
+    
+    
+    
+    /*
+     * <div class="col-12 mb-3">
+          <div class="form-check">
+             <InputCheckbox id="IsPublished" @bind-Value="aProduct.IsPublished" class="form-check-input" />
+             <label class="form-check-label" for="IsPublished">
+             Published
+             </label>
+          </div>
+       </div>
+     */
 
 }
 

@@ -20,6 +20,8 @@ namespace WebApp1.Model
         
         public DateTime PublishedDate { get; set; } = DateTime.Now;
 
+        public bool IsPublished { get; set; }
+
     }
 }
 

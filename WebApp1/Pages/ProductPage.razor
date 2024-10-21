@@ -25,6 +25,10 @@
         <label for="Description">Description</label>
         <InputTextArea id="Description" @bind-Value="aProduct.Description" class="form-control" />
     </div>
+    <div class="col-md-12 mb-3">
+            <label for="IsPublished">Is Published</label>
+            <InputCheckbox id="IsPublished" @bind-Value="aProduct.IsPublished" class="form-check-input" />
+        </div>
     
     <div class="col-12 mb-3">
         <button type="submit" class="btn btn-primary">Submit</button>

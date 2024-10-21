@@ -1,0 +1,32 @@
+@page "/todo"
+@using WebApp1.Model
+<h1>ToDoList - version 1 - Der mangler @items.Count(item => !item.IsDone)</h1>
+
+<ul>
+    @foreach (ToDoItem item in items)
+    {
+        <li>
+            <InputCheckbox @bind-Value="item.IsDone"></InputCheckbox>
+            <b>@item.Title</b>
+        </li>
+    }
+</ul>
+<InputText @bind-Value="newToDo" placeHolder="Noget der skal gøres"></InputText>
+<button class="btn btn-primary" @onclick="AddToDo">Add</button>
+
+@code {
+
+    string? newToDo;
+    List<ToDoItem> items = new();
+
+    protected override void OnInitialized()
+    {
+        items.Add( new ToDoItem {Title="Test", IsDone = false});
+    }
+
+    void AddToDo()
+    {
+        items.Add(new ToDoItem{Title = newToDo, IsDone = false});
+    }
+
+}

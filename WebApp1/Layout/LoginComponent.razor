@@ -1,9 +1,29 @@
 
     
     <div class="topcorner">
-        <h3>LoginComponent</h3>
+        Time: @currentTime.ToLongTimeString();
         <button>Login</button>
     </div>
 @code {
-    
+       PeriodicTimer timer = new PeriodicTimer(TimeSpan.FromSeconds(1));
+
+       DateTime currentTime = DateTime.Now;
+       
+       protected override async Task OnInitializedAsync()
+       {
+           await TimeTicker();
+       }
+       
+       async Task TimeTicker()
+       {
+           PeriodicTimer secondTimer = new PeriodicTimer(TimeSpan.FromSeconds(1));
+
+           while (await secondTimer.WaitForNextTickAsync())
+           {
+               currentTime = DateTime.Now;
+               StateHasChanged(); // if not present - UI will not update
+               //Console.WriteLine(currentTime.ToLongTimeString());
+           }
+       }
+
 }

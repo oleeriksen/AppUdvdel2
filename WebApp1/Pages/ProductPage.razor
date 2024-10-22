@@ -36,21 +36,31 @@
     </div>
 </EditForm>
 
+<ModalDialog @ref="@modalDialog" Title="Besked">
+    <div class="row">
+        <h3>Status</h3>
+        <hr>
+        <p>Name: @aProduct.Name, publiceret @aProduct.PublishedDate - Pris: @aProduct.Price</p>
+        
+    </div>
+</ModalDialog>
 @code {
 
     private Product aProduct = new Product();
 
     private void HandleSubmit()
     {
-      Console.WriteLine($"Name: {aProduct.Name}, publiceret {aProduct.PublishedDate} - Pris: {aProduct.Price}");
+        modalDialog.Open();
+      //Console.WriteLine($"Name: {aProduct.Name}, publiceret {aProduct.PublishedDate} - Pris: {aProduct.Price}");
     }
 
-    
-    
-    
-    
-    
-    
+    ModalDialog? modalDialog { get; set; }
+
+
+
+
+
+
 
 }
 

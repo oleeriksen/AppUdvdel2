@@ -1,13 +1,12 @@
 
     
-    <div class="topcorner">
-        Time: @currentTime.ToLongTimeString();
-        <button>Login</button>
-    </div>
-@code {
-       PeriodicTimer timer = new PeriodicTimer(TimeSpan.FromSeconds(1));
+<div class="top-corner">
+    <span class="fw-bold">Now: @currentTime.ToShortDateString(): @currentTime.ToLongTimeString()</span>
+</div>
 
-       DateTime currentTime = DateTime.Now;
+@code {
+
+    DateTime currentTime = DateTime.Now;
        
        protected override async Task OnInitializedAsync()
        {

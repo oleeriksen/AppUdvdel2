@@ -1,0 +1,12 @@
+@using WebApp1.Model
+<tr>
+    <td>@Model.Name</td>
+    <td>@Model.Price</td>
+    <td>@Model.Description</td>
+</tr>
+@code {
+
+    [Parameter]
+    public Product? Model { get; set; }
+
+}

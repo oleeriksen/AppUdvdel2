@@ -36,32 +36,57 @@
     </div>
 </EditForm>
 
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Description</th>
+    </tr>
+    @foreach (var p in products)
+    {
+        <ProductComponent Model="@p"></ProductComponent>
+    }
+</table>
 <ModalDialog @ref="@modalDialog" Title="Besked">
     <div class="row">
         <h3>Status</h3>
         <hr>
         <p>Name: @aProduct.Name, publiceret @aProduct.PublishedDate - Pris: @aProduct.Price</p>
-        
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <button class="btn btn-primary" @onclick="OnClose">Close</button>
+        </div>
+        <div class="col-md-6">
+            <button class="btn" @onclick="OnCancel">Cancel</button>
+            </div>
     </div>
 </ModalDialog>
 @code {
 
-    private Product aProduct = new Product();
+    private List<Product> products = new();
+    private Product aProduct = new();
 
     private void HandleSubmit()
     {
         modalDialog.Open();
-      //Console.WriteLine($"Name: {aProduct.Name}, publiceret {aProduct.PublishedDate} - Pris: {aProduct.Price}");
+        Console.WriteLine($"Name: {aProduct.Name}, publiceret {aProduct.PublishedDate} - Pris: {aProduct.Price}");
+    }
+
+    void OnClose()
+    {
+        products.Add(aProduct);
+        aProduct = new();
+        modalDialog.Close();
+    }
+
+    void OnCancel()
+    {
+        aProduct = new();
+        modalDialog.Close();
     }
 
     ModalDialog? modalDialog { get; set; }
-
-
-
-
-
-
-
 }
 
 

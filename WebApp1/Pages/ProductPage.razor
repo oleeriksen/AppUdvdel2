@@ -1,92 +1,48 @@
 ﻿@page "/product"
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject NavigationManager navManager
 @using WebApp1.Model
-<h1 class="mb-3 mt-3">Add Product</h1>
+<h1 class="mb-3 mt-3">Product list</h1>
 
-<TimeComponent/>
-<EditForm Model="@aProduct" OnSubmit="@HandleSubmit" class="row p-3">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-    
-    <div class="col-md-12 mb-3">
-        <label for="Name">Name</label>
-        <InputText id="Name" @bind-Value="aProduct.Name" class="form-control" />
-    </div>
-    
-    <div class="col-md-6 mb-3">
-        <label for="Price">Price</label>
-        <InputNumber id="Price" @bind-Value="aProduct.Price" class="form-control" />
-    </div>
-    
-    <div class="col-md-6 mb-3">
-        <label for="PublishedDate">Published Date</label>
-        <InputDate id="PublishedDate" @bind-Value="aProduct.PublishedDate" class="form-control" />
-    </div>
-    
-    <div class="col-md-12 mb-3">
-        <label for="Description">Description</label>
-        <InputTextArea id="Description" @bind-Value="aProduct.Description" class="form-control" />
-    </div>
-    <div class="col-md-12 mb-3">
-            <label for="IsPublished">Is Published</label>
-            <InputCheckbox id="IsPublished" @bind-Value="aProduct.IsPublished" class="form-check-input" />
-        </div>
-    
-    <div class="col-12 mb-3">
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </div>
-</EditForm>
 
-<table>
+<table class="table">
+    <thead>
     <tr>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Description</th>
+        <th>Navn</th>
+        <th>Pris</th>
     </tr>
+    </thead>
+    <tbody>
     @foreach (var p in products)
     {
-        <ProductComponent Model="@p"></ProductComponent>
+        <tr>
+            <td>@p.Name</td>
+            <td>@p.Price</td>
+        </tr>
     }
+    </tbody>
 </table>
-<ModalDialog @ref="@modalDialog" Title="Besked">
-    <div class="row">
-        <h3>Status</h3>
-        <hr>
-        <p>Name: @aProduct.Name, publiceret @aProduct.PublishedDate - Pris: @aProduct.Price</p>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <button class="btn btn-primary" @onclick="OnClose">Close</button>
-        </div>
-        <div class="col-md-6">
-            <button class="btn" @onclick="OnCancel">Cancel</button>
-            </div>
-    </div>
-</ModalDialog>
+<button class="btn" @onclick="GoToAddProduct">+</button>
 @code {
 
     private List<Product> products = new();
-    private Product aProduct = new();
-
-    private void HandleSubmit()
+    
+    protected override async Task OnInitializedAsync()
     {
-        modalDialog.Open();
-        Console.WriteLine($"Name: {aProduct.Name}, publiceret {aProduct.PublishedDate} - Pris: {aProduct.Price}");
+        var p = await localStorage.GetItemAsync<List<Product>>("products");
+        if (p == null)
+            products = new();
+        else
+        {
+            products = p;
+        }
     }
 
-    void OnClose()
+    private void GoToAddProduct()
     {
-        products.Add(aProduct);
-        aProduct = new();
-        modalDialog.Close();
+        navManager.NavigateTo("addproduct");
     }
 
-    void OnCancel()
-    {
-        aProduct = new();
-        modalDialog.Close();
-    }
-
-    ModalDialog? modalDialog { get; set; }
 }
 
 

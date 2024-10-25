@@ -1,0 +1,17 @@
+@using WebApp1.Model
+
+<div class="top-corner">
+    <p>@mDice.GetEyes()</p>
+    <button class="btn btn-primary" @onclick="OnClickRoll">Roll</button>
+</div>
+
+@code {
+
+    Dice mDice = new();
+
+    private void OnClickRoll()
+    {
+        mDice.Roll();
+    }
+
+}

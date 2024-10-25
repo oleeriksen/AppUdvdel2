@@ -1,0 +1,25 @@
+@page "/search"
+@inject HttpClient Http
+
+<h3>SearchPage</h3>
+
+@if (allWords != null)
+{
+    <ul>
+    @for (int i = 0; i < 100; i++)
+    {
+        <li>@allWords[i]</li>
+    }
+    </ul>
+}
+@code {
+    string[]? allWords;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var content = await Http.GetStringAsync("sample-data/words.txt");
+        
+        allWords = content.Split("\n");
+    }
+
+}

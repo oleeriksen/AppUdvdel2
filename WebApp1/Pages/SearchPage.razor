@@ -3,23 +3,61 @@
 
 <h3>SearchPage</h3>
 
-@if (allWords != null)
+<div class="row">
+<div class="col-md-6">
+    <InputText @bind-Value="query" class="form-control"/>
+</div>
+    <div class="col-md-6">
+        <button class="btn btn-primary" @onclick="OnClickStartWith">Starter med</button>
+        <button class="btn btn-primary" @onclick="OnClickContains">Indeholder</button>
+    </div>
+</div>
+@if (viewWords != null)
 {
     <ul>
-    @for (int i = 0; i < 100; i++)
+    @foreach (var w in viewWords)
     {
-        <li>@allWords[i]</li>
+        <li>@w</li>
     }
     </ul>
+}
+else
+{
+    <p>waiting for words to be loaded...</p>
 }
 @code {
     string[]? allWords;
 
+    string[]? viewWords;
+
+    string query;
+
     protected override async Task OnInitializedAsync()
     {
+        allWords = await LoadAllWords();
+        viewWords = allWords.Take(10).ToArray();
+    }
+
+    private async Task<string[]> LoadAllWords()
+    {
         var content = await Http.GetStringAsync("sample-data/words.txt");
-        
-        allWords = content.Split("\n");
+        return content.Split("\n");
+    }
+
+    private void OnClickStartWith()
+    {
+        List<string> result = new();
+        foreach (string w in allWords)
+        {
+            if (w.StartsWith(query))
+                result.Add(w);
+        }
+        viewWords = result.ToArray();
+    }
+
+    private void OnClickContains()
+    {
+        viewWords = allWords.Where((w) => w.Contains(query)).ToArray();
     }
 
 }

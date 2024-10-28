@@ -8,9 +8,9 @@
 
     DateTime currentTime = DateTime.Now;
        
-       protected override async Task OnInitializedAsync()
+       protected override void OnInitialized()
        {
-           await TimeTicker();
+           TimeTicker();
        }
        
        async Task TimeTicker()

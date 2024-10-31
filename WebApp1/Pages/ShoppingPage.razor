@@ -1,0 +1,128 @@
+﻿@page "/shopping"
+@using Core;
+@inject HttpClient Http;
+@inject Blazored.LocalStorage.ILocalStorageService localStore
+@inject NavigationManager navigationManager
+
+
+
+<h1 class="mb-3 mt-3">Shopping List</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Price</th>
+            <th>Done</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in shoppingList ?? new ShoppingItem[0])
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Amount</td>
+                <td>@item.Price</td>
+                <td>
+                    <InputCheckbox id="Done" @bind-Value="item.Done" @onclick="() =>UpdateShoppingItem(item) " class="form-check-input" />
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+<h2>Add ...</h2>
+
+<EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="col-md-12 mb-3">
+        <label for="Name">Name</label>
+        <InputText id="Name" @bind-Value="shoppingItem.Name" class="form-control" />
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="Price">Price</label>
+        <InputNumber id="Price" @bind-Value="shoppingItem.Price" class="form-control" />
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="Amount">Amount</label>
+        <InputNumber id="Amount" @bind-Value="shoppingItem.Amount" class="form-control" />
+    </div>
+
+    <div class="col-md-12 mb-3">
+        <label for="Description">Description</label>
+        <InputTextArea id="Description" @bind-Value="shoppingItem.Description" class="form-control" />
+    </div>
+    <div class="col-md-6 mb-3">
+        <div class="form-check">
+            <InputCheckbox id="Done" @bind-Value="shoppingItem.Done" class="form-check-input" />
+            <label class="form-check-label" for="Done">
+                Is Done
+            </label>
+        </div>
+    </div>
+
+    <div class="col-12 mb-3">
+        <button type="submit" class="btn btn-primary">Add</button>
+    </div>
+</EditForm>
+
+
+@code {
+
+    // Objekt for formen der vises modal
+    private ShoppingItem shoppingItem = new ShoppingItem();
+
+    // container for listen
+    private ShoppingItem[]? shoppingList = new ShoppingItem[0];
+
+    // kontekst for formen
+    private EditContext? aEditContext;
+
+    // adresse på server
+    private string serverUrl = "https://localhost:7060";
+    
+    protected override async Task OnInitializedAsync()
+    {
+        aEditContext = new EditContext(shoppingItem);
+
+        shoppingList = await Http.GetFromJsonAsync<ShoppingItem[]>($"{serverUrl}/api/shopping/getall");
+    }
+
+    public async Task HandleValidSubmit()
+    {
+        await AddShoppingItem();
+    }
+
+    private async Task AddShoppingItem()
+    {
+        await Http.PostAsJsonAsync<ShoppingItem>($"{serverUrl}/api/shopping/add", shoppingItem);
+        Console.WriteLine("Klient: add " + shoppingItem.Name + " " + shoppingItem.Price);
+        shoppingList = await Http.GetFromJsonAsync<ShoppingItem[]>($"{serverUrl}/api/shopping/getall");
+        shoppingItem = new(); // clear fields in form
+    }
+
+    public string boolAsText(bool b)
+    {
+        return b ? "YES" : "NO";
+    }
+
+
+
+    private async Task DeleteShoppingItem(ShoppingItem item)
+    {
+        await Http.DeleteAsync($"{serverUrl}/api/shopping/delete/{item.Id}");
+
+        shoppingList = await Http.GetFromJsonAsync<ShoppingItem[]>($"{serverUrl}/api/shopping/getall");
+
+    }
+
+    private async Task UpdateShoppingItem(ShoppingItem item)
+    {
+        item.Done = !item.Done;
+        await Http.PutAsJsonAsync<ShoppingItem>($"{serverUrl}/api/shopping/update", item);
+    }
+}
+

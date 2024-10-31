@@ -1,5 +1,6 @@
 ﻿@page "/weather"
 @inject HttpClient Http
+@using Core
 
 <PageTitle>Weather</PageTitle>
 
@@ -43,20 +44,10 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var f = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
-        Thread.Sleep(5000);
+        var f = await Http.GetFromJsonAsync<WeatherForecast[]>("http://localhost:5151/api/vejr/get5");
         forecasts = f;
     }
 
-    public class WeatherForecast
-    {
-        public DateOnly Date { get; set; }
-
-        public int TemperatureC { get; set; }
-
-        public string? Summary { get; set; }
-
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-    }
+    
 
 }

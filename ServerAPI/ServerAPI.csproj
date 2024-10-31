@@ -11,4 +11,14 @@
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Core\Core.csproj" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <Compile Remove="Repositories\ShoppingRepositoryMongoDB.cs" />
+      <Compile Remove="Repositories\ShoppingRepositorySQLite.cs" />
+    </ItemGroup>
+
 </Project>

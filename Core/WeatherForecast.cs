@@ -1,4 +1,4 @@
-namespace WebApplication1;
+namespace Core;
 
 public class WeatherForecast
 {

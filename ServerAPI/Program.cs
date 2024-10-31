@@ -1,8 +1,19 @@
+using ServerAPI.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddSingleton<IShoppingRepository, ShoppingRepositoryInMemory>();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("policy",
+        policy =>
+        {
+            policy.AllowAnyOrigin();
+        });
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -17,7 +28,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors("policy");
 app.UseAuthorization();
 
 app.MapControllers();

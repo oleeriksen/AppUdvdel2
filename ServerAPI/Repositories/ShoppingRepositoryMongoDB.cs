@@ -14,9 +14,7 @@ namespace ServerAPI.Repositories
 		{
             var password = "paste password here"; //add
             var mongoUri = $"mongodb+srv://olee58:{password}@cluster0.olmnqak.mongodb.net/?retryWrites=true&w=majority";
-
             
-
             try
             {
                 client = new MongoClient(mongoUri);
@@ -64,13 +62,6 @@ namespace ServerAPI.Repositories
         {
            return collection.Find(Builders<ShoppingItem>.Filter.Empty).ToList().ToArray();
         }
-
-        /*public ShoppingItem[] GetAllByShop(string shop)
-        {
-            var filter = Builders<ShoppingItem>.Filter.Where(r => r.Shop.Equals(shop));
-            return collection.Find(filter).ToList().ToArray();
-
-        }*/
 
         public void UpdateItem(ShoppingItem item)
         {

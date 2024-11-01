@@ -2,13 +2,16 @@
 
 namespace ServerAPI.Repositories
 {
+    /*
+     * Repræsenterer en samling af ShoppingItems.
+     */
     public interface IShoppingRepository
     {
         //Tildeler item en unik id og tilføjer den.
         void AddItem(ShoppingItem item);
 
         // Fjerner item, hvor item.Id = id. Hvis den ikke
-        // findes sker ingenting
+        // findes, sker ingenting
         void DeleteById(int id);
 
         ShoppingItem[] GetAll();

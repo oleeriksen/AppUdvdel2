@@ -35,7 +35,7 @@
 
 <h2>Add ...</h2>
 
-<EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
+<EditForm Model="@shoppingItem" class="row p-3" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <div class="col-md-12 mb-3">
@@ -73,21 +73,16 @@
 @code {
 
     // Objekt for formen der vises modal
-    private ShoppingItem shoppingItem = new ShoppingItem();
+    private ShoppingItem shoppingItem = new();
 
     // container for listen
     private ShoppingItem[]? shoppingList = new ShoppingItem[0];
 
-    // kontekst for formen
-    private EditContext? aEditContext;
-
     // adresse på server
-    private string serverUrl = "https://localhost:7060";
+    private string serverUrl = "http://localhost:5151";
     
     protected override async Task OnInitializedAsync()
     {
-        aEditContext = new EditContext(shoppingItem);
-
         shoppingList = await Http.GetFromJsonAsync<ShoppingItem[]>($"{serverUrl}/api/shopping/getall");
     }
 
@@ -103,20 +98,12 @@
         shoppingList = await Http.GetFromJsonAsync<ShoppingItem[]>($"{serverUrl}/api/shopping/getall");
         shoppingItem = new(); // clear fields in form
     }
-
-    public string boolAsText(bool b)
-    {
-        return b ? "YES" : "NO";
-    }
-
-
-
+    
     private async Task DeleteShoppingItem(ShoppingItem item)
     {
         await Http.DeleteAsync($"{serverUrl}/api/shopping/delete/{item.Id}");
 
         shoppingList = await Http.GetFromJsonAsync<ShoppingItem[]>($"{serverUrl}/api/shopping/getall");
-
     }
 
     private async Task UpdateShoppingItem(ShoppingItem item)

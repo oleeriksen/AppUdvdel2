@@ -4,13 +4,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddSingleton<IShoppingRepository, ShoppingRepositoryInMemory>();
+builder.Services.AddSingleton<IShoppingRepository, ShoppingRepositoryMongoDB>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("policy",
         policy =>
         {
             policy.AllowAnyOrigin();
+            policy.AllowAnyHeader();
+            policy.AllowAnyMethod();
         });
 });
 

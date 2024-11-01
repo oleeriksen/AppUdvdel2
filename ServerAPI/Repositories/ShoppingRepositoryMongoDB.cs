@@ -1,5 +1,5 @@
 ﻿using System;
-using Core.Model;
+using Core;
 using MongoDB.Driver;
 using static MongoDB.Driver.WriteConcern;
 
@@ -12,7 +12,7 @@ namespace ServerAPI.Repositories
 
         public ShoppingRepositoryMongoDB()
 		{
-            var password = ""; //add
+            var password = "xl2GH1Uxztjtstwf"; //add
             var mongoUri = $"mongodb+srv://olee58:{password}@cluster0.olmnqak.mongodb.net/?retryWrites=true&w=majority";
 
             

@@ -20,8 +20,6 @@ namespace ServerAPI.Controllers
             return mRepo.GetAll();
         }
 
-        
-
         [HttpPost]
         [Route("add")]
         public void AddItem(ShoppingItem product){

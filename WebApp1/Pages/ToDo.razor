@@ -1,12 +1,13 @@
 @page "/todo"
+@inject HttpClient http
 @using WebApp1.Model
-<h1>ToDoList - version 1 - Der mangler @items.Count(item => !item.IsDone)</h1>
+<h1>ToDoList - version 2 - Der mangler @items.Count(item => !item.IsDone)</h1>
 
 <ul>
     @foreach (ToDoItem item in items)
     {
         <li>
-            <InputCheckbox @bind-Value="item.IsDone"></InputCheckbox>
+            <InputCheckbox @bind-Value="item.IsDone" @onclick="() => OnClickDone(item)"></InputCheckbox>
             <b>@item.Title</b>
         </li>
     }
@@ -18,15 +19,31 @@
 
     string? newToDo;
     List<ToDoItem> items = new();
+    
+    private string serverUrl = "http://localhost:5151";
 
-    protected override void OnInitialized()
+
+    protected override async Task OnInitializedAsync()
     {
-        items.Add( new ToDoItem {Title="Test", IsDone = false});
+        items = await http.GetFromJsonAsync<List<ToDoItem>>($"{serverUrl}/api/todo/getall");
     }
 
-    void AddToDo()
+    async Task AddToDo()
     {
-        items.Add(new ToDoItem{Title = newToDo, IsDone = false});
+        var newToDoItem = new ToDoItem { Title = newToDo, IsDone = false }; 
+        
+        await http.PostAsJsonAsync($"{serverUrl}/api/todo/add", newToDoItem);
+
+        items = await http.GetFromJsonAsync<List<ToDoItem>>($"{serverUrl}/api/todo/getall");
+
+    }
+
+    private async Task OnClickDone(ToDoItem item)
+    {
+        item.IsDone = !item.IsDone;
+        
+        await http.PutAsJsonAsync($"{serverUrl}/api/todo/update", item);
+        
     }
 
 }

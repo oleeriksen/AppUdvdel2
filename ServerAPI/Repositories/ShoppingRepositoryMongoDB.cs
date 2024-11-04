@@ -12,24 +12,11 @@ namespace ServerAPI.Repositories
 
         public ShoppingRepositoryMongoDB()
 		{
-            var password = "paste password here"; //add
+            var password = ""; //add
             var mongoUri = $"mongodb+srv://olee58:{password}@cluster0.olmnqak.mongodb.net/?retryWrites=true&w=majority";
             
-            try
-            {
-                client = new MongoClient(mongoUri);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("There was a problem connecting to your " +
-                    "Atlas cluster. Check that the URI includes a valid " +
-                    "username and password, and that your IP address is " +
-                    $"in the Access List. Message: {e.Message}");
-                Console.WriteLine(e);
-                Console.WriteLine();
-                return;
-            }
-
+            client = new MongoClient(mongoUri);
+                
             // Provide the name of the database and collection you want to use.
             // If they don't already exist, the driver and Atlas will create them
             // automatically when you first write data.

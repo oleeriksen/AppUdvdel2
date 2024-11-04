@@ -2,7 +2,7 @@
 using Core;
 using ServerAPI.Repositories;
 
-namespace HelloBlazor.Server.Controllers
+namespace ServerAPI.Controllers
 {
     [ApiController]
     [Route("api/shopping")]

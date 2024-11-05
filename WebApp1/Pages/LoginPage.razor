@@ -1,0 +1,26 @@
+@page "/login"
+@using WebApp1.Service
+@inject NavigationManager navManager
+<h3>LoginPage</h3>
+
+<InputText @bind-value="username" class="form-control"></InputText>
+<InputText type="password" @bind-value="password" class="form-control"></InputText>
+<button @onclick="OnClickLogin" class="btn btn-primary">Login</button>
+<scan>@errorText</scan>
+@code {
+    string username;
+    string password;
+    string errorText = "";
+
+
+    private async Task OnClickLogin()
+    {
+        LoginService service = new();
+        var success = await service.Login(username, password);
+        if (!success)
+            errorText = "No match found - retry...";
+        else
+            navManager.NavigateTo("/");
+    }    
+
+}

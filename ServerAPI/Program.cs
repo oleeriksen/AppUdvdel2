@@ -4,7 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddSingleton<IShoppingRepository, ShoppingRepositoryMongoDB>();
+builder.Services.AddSingleton<IShoppingRepository, ShoppingRepositoryInMemory>();
 builder.Services.AddSingleton<IWeatherRepo, WeatherRepo>();
 builder.Services.AddCors(options =>
 {

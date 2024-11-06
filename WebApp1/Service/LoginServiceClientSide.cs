@@ -4,22 +4,18 @@ using Core;
 
 namespace WebApp1.Service;
 
-public class LoginService : ILoginService
-{
+public class LoginServiceClientSide : ILoginService  {
+    
     private ILocalStorageService localStorage { get; set; }
-
-    public LoginService(ILocalStorageService ls)
-    {
+    
+    public LoginServiceClientSide(ILocalStorageService ls) {
         localStorage = ls;
     }
-
-    public async Task<User> GetUserLoggedIn() {
+    public async Task<User?> GetUserLoggedIn() {
             var res = await localStorage.GetItemAsync<User>("user");
             return res;
-        }
-
-    public async Task<bool> Login(string username, string password)
-    {
+    }
+    public async Task<bool> Login(string username, string password) {
         if (username.Equals("peter") && password.Equals("1234"))
         {
             User user = new User { Username = username, Password = "verfied", Role = "admin" };
@@ -28,8 +24,6 @@ public class LoginService : ILoginService
             return true;
         }
         return false;
-
-
     }
 }
 

@@ -21,8 +21,6 @@
 @code {
     private int currentCount = 0;
     
-    
-
     protected override async Task OnInitializedAsync()
     {
         // check for login
@@ -30,7 +28,7 @@
         if (loggedIn is null)
             navManager.NavigateTo("login/counter");
         
-        
+        // other page specific stuff...
         var c = await localStore.GetItemAsync<int>("count");
         if (c != 0)
             currentCount = c;

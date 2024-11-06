@@ -22,8 +22,9 @@ namespace ServerAPI.Controllers
 
         [HttpPost]
         [Route("add")]
-        public void AddItem(ShoppingItem product){
-            mRepo.AddItem(product);  
+        public ShoppingItem AddItem(ShoppingItem product){
+            mRepo.AddItem(product);
+            return product;
         }
 
         [HttpDelete]

@@ -4,19 +4,19 @@
 @inject ILoginService loginService
 
 
-<h3>LoginPage</h3>
+<h3>Login</h3>
 <div class="row justify-content-center">
     <div class="col-md-6 mb-3">
         <label for="username">Brugernavn:</label>
         <InputText id="username" @bind-Value="username" 
-                   place-holder="Indtast brugernavn..." class="form-control" />
+                   placeholder="Indtast brugernavn..." class="form-control" />
     </div>
 </div>
 <div class="row justify-content-center">
     <div class="col-md-6 mb-3">
         <label for="password">Password:</label>
         <InputText id="password" @bind-Value="password" 
-                   place-holder="Indtast password..." class="form-control" />
+                   placeholder="Indtast password..." class="form-control" />
     </div>
 </div>
 <div class="row justify-content-center">
@@ -25,7 +25,7 @@
         <button @onclick="OnClickLogin" class="btn btn-primary">Login</button>
         </div>
             </div>
-<scan>@errorText</scan>
+<scan style="color: red">@errorText</scan>
 </div>
 @code {
     string username = "";

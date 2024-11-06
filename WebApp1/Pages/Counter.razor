@@ -3,6 +3,7 @@
 @using WebApp1.Service
 @inject Blazored.LocalStorage.ILocalStorageService localStore
 @inject NavigationManager navManager
+@inject ILoginService loginService
 
 
 <PageTitle>Counter</PageTitle>
@@ -24,15 +25,18 @@
 
     protected override async Task OnInitializedAsync()
     {
+        // check for login
+        var loggedIn = await loginService.GetUserLoggedIn();
+        if (loggedIn is null)
+            navManager.NavigateTo("login/counter");
+        
+        
         var c = await localStore.GetItemAsync<int>("count");
         if (c != 0)
             currentCount = c;
         else
             currentCount = 0;
-        LoginService service = new();
-        var loggedIn = await service.IsUserLoggedIn();
-        if (!loggedIn)
-            navManager.NavigateTo("login");
+        
     }
 
     private async Task IncrementCount()

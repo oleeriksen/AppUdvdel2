@@ -1,26 +1,47 @@
-@page "/login"
+@page "/login/{target:alpha}"
 @using WebApp1.Service
 @inject NavigationManager navManager
-<h3>LoginPage</h3>
+@inject ILoginService loginService
 
-<InputText @bind-value="username" class="form-control"></InputText>
-<InputText type="password" @bind-value="password" class="form-control"></InputText>
-<button @onclick="OnClickLogin" class="btn btn-primary">Login</button>
+
+<h3>LoginPage</h3>
+<div class="row justify-content-center">
+    <div class="col-md-6 mb-3">
+        <label for="username">Brugernavn:</label>
+        <InputText id="username" @bind-Value="username" 
+                   place-holder="Indtast brugernavn..." class="form-control" />
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col-md-6 mb-3">
+        <label for="password">Password:</label>
+        <InputText id="password" @bind-Value="password" 
+                   place-holder="Indtast password..." class="form-control" />
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col-md-6 mb-3">
+        <div class="d-flex justify-content-end">
+        <button @onclick="OnClickLogin" class="btn btn-primary">Login</button>
+        </div>
+            </div>
 <scan>@errorText</scan>
+</div>
 @code {
-    string username;
-    string password;
+    string username = "";
+    string password = "";
     string errorText = "";
 
+    [Parameter]
+    public string target { get; set; }
 
     private async Task OnClickLogin()
     {
-        LoginService service = new();
-        var success = await service.Login(username, password);
+        var success = await loginService.Login(username, password);
         if (!success)
             errorText = "No match found - retry...";
         else
-            navManager.NavigateTo("/");
+            navManager.NavigateTo(target);
     }    
 
 }

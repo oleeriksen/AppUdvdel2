@@ -18,7 +18,7 @@ public class LoginServiceClientSide : ILoginService  {
     public async Task<bool> Login(string username, string password) {
         if (username.Equals("peter") && password.Equals("1234"))
         {
-            User user = new User { Username = username, Password = "verfied", Role = "admin" };
+            User user = new User { Username = username, Password = "verified", Role = "admin" };
             
             await localStorage.SetItemAsync("user", user);
             return true;

@@ -1,7 +1,8 @@
 @page "/login/{target:alpha}"
 @using WebApp1.Service
-@inject NavigationManager navManager
 @inject ILoginService loginService
+@inject NavigationManager navManager
+
 
 <h3>Login</h3>
 <div class="row justify-content-center">
@@ -36,11 +37,15 @@
 
     private async Task OnClickLogin()
     {
-        var success = await loginService.Login(username, password);
-        if (!success)
-            errorText = "No match found - retry...";
-        else
+       var success =  await loginService.Login(username, password);
+        if (success)
+        {
             navManager.NavigateTo(target);
+        }
+        else
+        {
+            errorText = "Bad combination ... try again";
+        }
     }    
 
 }

@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddSingleton<IShoppingRepository, ShoppingRepositoryInMemory>();
 builder.Services.AddSingleton<IWeatherRepo, WeatherRepo>();
+builder.Services.AddSingleton<ILoginRepository, LoginRepositoryInMemory>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("policy",

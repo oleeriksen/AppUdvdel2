@@ -16,7 +16,7 @@ public class LoginServiceClientSide : ILoginService  {
             return res;
     }
     public async Task<bool> Login(string username, string password) {
-        if (username.Equals("peter") && password.Equals("1234"))
+        if (await Validate(username, password))
         {
             User user = new User { Username = username, Password = "verified", Role = "admin" };
             
@@ -24,6 +24,11 @@ public class LoginServiceClientSide : ILoginService  {
             return true;
         }
         return false;
+    }
+
+    protected virtual async Task<bool> Validate(string username, string password)
+    {
+        return username.Equals("peter") && password.Equals("1234");
     }
 }
 

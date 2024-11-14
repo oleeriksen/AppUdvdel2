@@ -18,7 +18,7 @@ public class LoginServiceClientSide : ILoginService  {
     public async Task<bool> Login(string username, string password) {
         if (await Validate(username, password))
         {
-            User user = new User { Username = username, Password = "verified", Role = "admin" };
+            User user = new User { Username = username, Password = "verified", Role = new Role{Id=1, Name = "admin" }};
             
             await localStorage.SetItemAsync("user", user);
             return true;

@@ -12,11 +12,12 @@ public class LoginServiceServerSide : LoginServiceClientSide
     public LoginServiceServerSide(ILocalStorageService ls, HttpClient http) : base(ls)
     {
         this.http = http;
+        
     }
 
     protected override async Task<bool> Validate(string username, string password)
     {
-        User user = new User() { Username = username, Password = password };
+        User user = new User() { Username = username, Password = password , Role= new Role{Id=0, Name = "admin"}};
         var res = await http.PostAsJsonAsync<User>($"{serverUrl}/api/login/validate", user);
         var body = await res.Content.ReadAsStringAsync();
         return body.Equals("true");

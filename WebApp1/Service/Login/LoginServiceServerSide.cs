@@ -2,7 +2,7 @@ using System.Net.Http.Json;
 using Blazored.LocalStorage;
 using Core;
 
-namespace WebApp1.Service;
+namespace WebApp1.Service.Login;
 
 public class LoginServiceServerSide : LoginServiceClientSide
 {

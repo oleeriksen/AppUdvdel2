@@ -33,6 +33,7 @@ namespace ServerAPI.Repositories
             var max = 0;
             if (collection.Count(Builders<ShoppingItem>.Filter.Empty) > 0)
             {
+                
                 max = collection.Find(Builders<ShoppingItem>.Filter.Empty).SortByDescending(r => r.Id).Limit(1).ToList()[0].Id;
             }
             item.Id = max + 1;

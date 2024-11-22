@@ -16,8 +16,9 @@ namespace ServerAPI.Controllers
 
         [HttpGet]
         [Route("getall")]
-        public IEnumerable<ShoppingItem> GetAll(){
-            return mRepo.GetAll();
+        public ActionResult<ShoppingItem[]> GetAll(){
+            
+            return Ok(mRepo.GetAll());
         }
 
         [HttpPost]

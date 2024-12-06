@@ -29,10 +29,11 @@ namespace ServerAPI.Repositories
             mLists.Add(sl);
         }
 
-        public void AddItemToList(ShoppingList sl, ShoppingItem item)
+        public void AddItemToList(int id, ShoppingItem item)
         {
-            item.Id = sl.ShoppingItems.Count + 1;
-            sl.ShoppingItems.Add(item);
+            var theList = GetById(id);
+            item.Id = theList.ShoppingItems.Count + 1;
+            theList.ShoppingItems.Add(item);
         }
 
         public void UpdateShoppingItem(ShoppingList sl, ShoppingItem item)

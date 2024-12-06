@@ -53,9 +53,10 @@ namespace ServerAPI.Repositories
             collection.InsertOne(sl);
         }
 
-        public void AddItemToList(ShoppingList sl, ShoppingItem item)
+        
+        public void AddItemToList(int id, ShoppingItem item)
         {
-            var theList = GetById(sl.Id);
+            var theList = GetById(id);
             theList.ShoppingItems.Add(item);
             UpdateList(theList);
             

@@ -16,18 +16,19 @@ namespace ServerAPI.Controllers
 
         [HttpGet]
         [Route("getall")]
-        public ShoppingItem[] GetAll(){
+        public List<ShoppingList> GetAll(){
             
             return mRepo.GetAll();
         }
 
         [HttpPost]
-        [Route("add")]
-        public ShoppingItem AddItem(ShoppingItem product){
-            mRepo.AddItem(product);
+        [Route("add/{id:int}")]
+        public ShoppingItem AddItemToList(int id,ShoppingItem product){
+            mRepo.AddItemToList(id, product);
             return product;
         }
 
+        /*
         [HttpDelete]
         [Route("delete/{id:int}")]
         public void DeleteItem(int id) {
@@ -39,7 +40,7 @@ namespace ServerAPI.Controllers
         public void UpdateItem(ShoppingItem product){
             mRepo.UpdateItem(product);
         }
-
+*/
 
     }
 }

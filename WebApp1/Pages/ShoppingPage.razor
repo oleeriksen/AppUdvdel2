@@ -1,13 +1,15 @@
-﻿@page "/shopping"
+﻿@page "/shoppinglist/{id:int}"
 @using Core;
 @using System.Net
+@using WebApp1.Service
 @inject HttpClient Http;
 @inject Blazored.LocalStorage.ILocalStorageService localStore
 @inject NavigationManager navigationManager
+@inject IShoppingService shoppingService
 
 
 
-<h1 class="mb-3 mt-3">Shopping List</h1>
+<h1 class="mb-3 mt-3">Shopping List - @shoppingList.Name</h1>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -18,7 +20,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in shoppingList ?? new ShoppingItem[0])
+        @foreach (var item in shoppingList.ShoppingItems)
         {
             <tr>
                 <td>@item.Name</td>
@@ -34,7 +36,7 @@
     </tbody>
 </table>
 
-<h2>Add ...</h2>
+<h2>Add Item</h2>
 
 <EditForm Model="@shoppingItem" class="row p-3" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
@@ -78,15 +80,16 @@
     private ShoppingItem shoppingItem = new();
 
     // container for listen
-    private ShoppingItem[]? shoppingList = new ShoppingItem[0];
+    private ShoppingList shoppingList { get; set; }
+
+    [Parameter]
+    public int Id { get; set; }
 
     private string errorText = "";
-    // adresse på server
-    private string serverUrl = "http://localhost:5151";
     
     protected override async Task OnInitializedAsync()
     {
-        shoppingList = await Http.GetFromJsonAsync<ShoppingItem[]>($"{serverUrl}/api/shopping/getall");
+        shoppingList = await shoppingService.GetById(Id);
     }
 
     public async Task HandleValidSubmit()
@@ -96,23 +99,14 @@
 
     private async Task AddShoppingItem()
     {
-        await Http.PostAsJsonAsync<ShoppingItem>($"{serverUrl}/api/shopping/add", shoppingItem);
-        Console.WriteLine("Klient: add " + shoppingItem.Name + " " + shoppingItem.Price);
-        shoppingList = await Http.GetFromJsonAsync<ShoppingItem[]>($"{serverUrl}/api/shopping/getall");
+        await shoppingService.AddItemToList(shoppingList, shoppingItem);
         shoppingItem = new(); // clear fields in form
     }
     
-    private async Task DeleteShoppingItem(ShoppingItem item)
-    {
-        await Http.DeleteAsync($"{serverUrl}/api/shopping/delete/{item.Id}");
-
-        shoppingList = await Http.GetFromJsonAsync<ShoppingItem[]>($"{serverUrl}/api/shopping/getall");
-    }
-
     private async Task UpdateShoppingItem(ShoppingItem item)
     {
         item.Done = !item.Done;
-        await Http.PutAsJsonAsync<ShoppingItem>($"{serverUrl}/api/shopping/update", item);
+        shoppingService.UpdateShoppingItem(shoppingList, item);
     }
 }
 

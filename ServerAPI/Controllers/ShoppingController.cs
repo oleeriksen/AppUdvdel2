@@ -16,9 +16,9 @@ namespace ServerAPI.Controllers
 
         [HttpGet]
         [Route("getall")]
-        public ActionResult<ShoppingItem[]> GetAll(){
+        public ShoppingItem[] GetAll(){
             
-            return Ok(mRepo.GetAll());
+            return mRepo.GetAll();
         }
 
         [HttpPost]

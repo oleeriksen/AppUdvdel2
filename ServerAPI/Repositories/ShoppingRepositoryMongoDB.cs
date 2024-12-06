@@ -8,7 +8,7 @@ namespace ServerAPI.Repositories
 	public class ShoppingRepositoryMongoDB : IShoppingRepository
 	{
         private IMongoClient client;
-        private IMongoCollection<ShoppingItem> collection;
+        private IMongoCollection<ShoppingList> collection;
 
         public ShoppingRepositoryMongoDB()
 		{
@@ -21,43 +21,65 @@ namespace ServerAPI.Repositories
             // If they don't already exist, the driver and Atlas will create them
             // automatically when you first write data.
             var dbName = "myDatabase";
-            var collectionName = "shoppingitems";
+            var collectionName = "shopping";
 
             collection = client.GetDatabase(dbName)
-               .GetCollection<ShoppingItem>(collectionName);
+               .GetCollection<ShoppingList>(collectionName);
 
         }
+        
 
-        public void AddItem(ShoppingItem item)
+        public List<ShoppingList> GetAll()
+        {
+           return collection.Find(Builders<ShoppingList>.Filter.Empty).ToList();
+        }
+
+        public ShoppingList GetById(int id)
+        {
+            var xx = collection.Find(Builders<ShoppingList>.Filter.Where((theList) => theList.Id == id));
+            var theList = xx.ToList()[0];
+            return theList;
+        }
+
+        public void Add(ShoppingList sl)
         {
             var max = 0;
-            if (collection.Count(Builders<ShoppingItem>.Filter.Empty) > 0)
+            if (collection.Count(Builders<ShoppingList>.Filter.Empty) > 0)
             {
                 
-                max = collection.Find(Builders<ShoppingItem>.Filter.Empty).SortByDescending(r => r.Id).Limit(1).ToList()[0].Id;
+                max = collection.Find(Builders<ShoppingList>.Filter.Empty).SortByDescending(r => r.Id).Limit(1).ToList()[0].Id;
             }
-            item.Id = max + 1;
-            collection.InsertOne(item);
-           
+            sl.Id = max + 1;
+            collection.InsertOne(sl);
         }
 
-        public void DeleteById(int id){
-            var deleteResult = collection
-                .DeleteOne(Builders<ShoppingItem>.Filter.Where(r => r.Id == id));
-        }
-
-        public ShoppingItem[] GetAll()
+        public void AddItemToList(ShoppingList sl, ShoppingItem item)
         {
-           return collection.Find(Builders<ShoppingItem>.Filter.Empty).ToList().ToArray();
+            var theList = GetById(sl.Id);
+            theList.ShoppingItems.Add(item);
+            UpdateList(theList);
+            
         }
 
-        public void UpdateItem(ShoppingItem item)
+        public void UpdateShoppingItem(ShoppingList sl, ShoppingItem item)
         {
-            var updateDef = Builders<ShoppingItem>.Update
-                 .Set(x => x.Amount, item.Amount)
+            throw new NotImplementedException();
+        }
+
+        /*public void UpdateItem(ShoppingItem item)
+        {
+            var updateDef = Builders<ShoppingList>.Update
+                 .Set(x => x., item.Amount)
                  .Set(x => x.Description, item.Description)
                  .Set(x => x.Done, item.Done);
             collection.UpdateOne(x => x.Id == item.Id, updateDef);
+        }*/
+        
+        public void UpdateList(ShoppingList sl)
+        {
+            var updateDef = Builders<ShoppingList>.Update
+                .Set(x => x.ShoppingItems, sl.ShoppingItems);
+            collection.UpdateOne(x => x.Id == sl.Id, updateDef);
         }
     }
 }

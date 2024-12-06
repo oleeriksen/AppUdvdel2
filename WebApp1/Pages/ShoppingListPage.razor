@@ -1,0 +1,79 @@
+@page "/shopping"
+@using Core;
+@using System.Net
+@using WebApp1.Service
+@inject HttpClient Http;
+@inject Blazored.LocalStorage.ILocalStorageService localStore
+@inject NavigationManager navigationManager
+@inject IShoppingService shoppingService
+
+
+
+<h1 class="mb-3 mt-3">Shopping List</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th># items</th>
+            <th>Edit</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var list in mShoppingLists)
+        {
+            <tr>
+                <td>@list.Name</td>
+                <td>@list.Amount</td>
+                <td><scan @onclick="() => NavigateToDetailPage(list)">Details</scan></td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+<h2>Add ...</h2>
+
+<EditForm Model="@shoppingList" class="row p-3" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="col-md-6 mb-3">
+        <label for="Name">Name</label>
+        <InputText id="Name" @bind-Value="shoppingList.Name" class="form-control" />
+    </div>
+    <div class="col-6 mb-3">
+        <button type="submit" class="btn btn-primary">Add</button>
+    </div>
+</EditForm>
+
+
+@code {
+
+    // Objekt for formen der vises modal
+    private ShoppingList shoppingList = new();
+
+    // container for listen
+    private List<ShoppingList> mShoppingLists = new();
+
+    
+    
+    protected override async Task OnInitializedAsync()
+    {
+        mShoppingLists = await shoppingService.GetAll(); //await Http.GetFromJsonAsync<ShoppingItem[]>($"{serverUrl}/api/shopping/getall");
+    }
+
+    public async Task HandleValidSubmit()
+    {
+        await AddShoppingList();
+    }
+
+    private async Task AddShoppingList()
+    {
+        await shoppingService.Add(shoppingList);
+    }
+
+    private void NavigateToDetailPage(ShoppingList list)
+    {
+        navigationManager.NavigateTo($"shoppinglist/{list.Id}");
+    }
+
+}

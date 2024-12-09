@@ -36,10 +36,10 @@ namespace ServerAPI.Repositories
             theList.ShoppingItems.Add(item);
         }
 
-        public void UpdateShoppingItem(ShoppingList sl, ShoppingItem item)
+        public void UpdateShoppingItems(ShoppingList sl)
         {
-            var theItem = sl.ShoppingItems.Find((it) => it.Id == item.Id);
-            theItem.Done = item.Done;
+            var theItem = mLists.Find((x) => x.Id == sl.Id);
+            theItem.ShoppingItems = sl.ShoppingItems;
         }
     }
 }

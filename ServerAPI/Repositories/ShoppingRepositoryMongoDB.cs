@@ -53,18 +53,11 @@ namespace ServerAPI.Repositories
             collection.InsertOne(sl);
         }
 
-        
-        public void AddItemToList(int id, ShoppingItem item)
+        public void UpdateShoppingItems(ShoppingList sl)
         {
-            var theList = GetById(id);
-            theList.ShoppingItems.Add(item);
-            UpdateList(theList);
-            
-        }
-
-        public void UpdateShoppingItem(ShoppingList sl, ShoppingItem item)
-        {
-            throw new NotImplementedException();
+            var updateDef = Builders<ShoppingList>.Update
+                .Set(x => x.ShoppingItems, sl.ShoppingItems);
+            collection.UpdateOne(x => x.Id == sl.Id, updateDef);
         }
 
         /*public void UpdateItem(ShoppingItem item)
@@ -76,12 +69,7 @@ namespace ServerAPI.Repositories
             collection.UpdateOne(x => x.Id == item.Id, updateDef);
         }*/
         
-        public void UpdateList(ShoppingList sl)
-        {
-            var updateDef = Builders<ShoppingList>.Update
-                .Set(x => x.ShoppingItems, sl.ShoppingItems);
-            collection.UpdateOne(x => x.Id == sl.Id, updateDef);
-        }
+        
     }
 }
 

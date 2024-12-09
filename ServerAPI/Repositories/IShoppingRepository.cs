@@ -13,8 +13,6 @@ namespace ServerAPI.Repositories
         
         void Add(ShoppingList sl);
         
-        void AddItemToList(int id, ShoppingItem item);
-        
-        void UpdateShoppingItem(ShoppingList sl, ShoppingItem item);
+        void UpdateShoppingItems(ShoppingList sl);
     }
 }

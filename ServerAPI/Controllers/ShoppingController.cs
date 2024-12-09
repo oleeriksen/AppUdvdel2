@@ -21,14 +21,14 @@ namespace ServerAPI.Controllers
             return mRepo.GetAll();
         }
 
-        [HttpPost]
+       /* [HttpPost]
         [Route("add/{id:int}")]
         public ShoppingItem AddItemToList(int id,ShoppingItem product){
             mRepo.AddItemToList(id, product);
             return product;
         }
 
-        /*
+        
         [HttpDelete]
         [Route("delete/{id:int}")]
         public void DeleteItem(int id) {

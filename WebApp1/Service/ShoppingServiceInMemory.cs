@@ -30,17 +30,10 @@ public class ShoppingServiceInMemory : IShoppingService
         return Task.CompletedTask;
     }
 
-    public Task AddItemToList(ShoppingList sl, ShoppingItem item)
+    public Task UpdateShoppingItems(ShoppingList sl)
     {
-        item.Id = sl.ShoppingItems.Count + 1;
-        sl.ShoppingItems.Add(item);
-        return Task.CompletedTask;
-    }
-
-    public Task UpdateShoppingItem(ShoppingList sl, ShoppingItem item)
-    {
-        var theItem = sl.ShoppingItems.Find((it) => it.Id == item.Id);
-        theItem.Done = item.Done;
+        var theList =mLists.Find((x) => x.Id == sl.Id);
+        theList.ShoppingItems = sl.ShoppingItems;
         return Task.CompletedTask;
     }
 }

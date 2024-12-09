@@ -19,12 +19,7 @@ public class ShoppingServiceUseAPI : IShoppingService
         throw new NotImplementedException();
     }
 
-    public Task AddItemToList(ShoppingList sl, ShoppingItem item)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task UpdateShoppingItem(ShoppingList sl, ShoppingItem item)
+    public Task UpdateShoppingItems(ShoppingList sl)
     {
         throw new NotImplementedException();
     }

@@ -99,14 +99,15 @@
 
     private async Task AddShoppingItem()
     {
-        await shoppingService.AddItemToList(shoppingList, shoppingItem);
+        shoppingList.ShoppingItems.Add(shoppingItem);
+        await shoppingService.UpdateShoppingItems(shoppingList);
         shoppingItem = new(); // clear fields in form
     }
     
     private async Task UpdateShoppingItem(ShoppingItem item)
     {
         item.Done = !item.Done;
-        shoppingService.UpdateShoppingItem(shoppingList, item);
+        await shoppingService.UpdateShoppingItems(shoppingList);
     }
 }
 

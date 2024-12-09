@@ -29,13 +29,6 @@ namespace ServerAPI.Repositories
             mLists.Add(sl);
         }
 
-        public void AddItemToList(int id, ShoppingItem item)
-        {
-            var theList = GetById(id);
-            item.Id = theList.ShoppingItems.Count + 1;
-            theList.ShoppingItems.Add(item);
-        }
-
         public void UpdateShoppingItems(ShoppingList sl)
         {
             var theItem = mLists.Find((x) => x.Id == sl.Id);

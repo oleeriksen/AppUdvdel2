@@ -2,6 +2,7 @@
 @using Core;
 @using System.Net
 @using WebApp1.Service
+@using WebApp1.Service.Shopping
 @inject HttpClient Http;
 @inject Blazored.LocalStorage.ILocalStorageService localStore
 @inject NavigationManager navigationManager
@@ -80,7 +81,7 @@
     private ShoppingItem shoppingItem = new();
 
     // container for listen
-    private ShoppingList shoppingList { get; set; }
+    private ShoppingList shoppingList { get; set; } = new();
 
     [Parameter]
     public int Id { get; set; }

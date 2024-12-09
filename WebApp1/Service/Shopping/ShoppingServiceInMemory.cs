@@ -1,6 +1,6 @@
 using Core;
 
-namespace WebApp1.Service;
+namespace WebApp1.Service.Shopping;
 
 public class ShoppingServiceInMemory : IShoppingService
 {

@@ -2,6 +2,7 @@
 @using Core;
 @using System.Net
 @using WebApp1.Service
+@using WebApp1.Service.Shopping
 @inject HttpClient Http;
 @inject Blazored.LocalStorage.ILocalStorageService localStore
 @inject NavigationManager navigationManager
@@ -24,7 +25,7 @@
             <tr>
                 <td>@list.Name</td>
                 <td>@list.Amount</td>
-                <td><scan @onclick="() => NavigateToDetailPage(list)">Details</scan></td>
+                <td><scan class="btn btn-primary" @onclick="() => NavigateToDetailPage(list)">Details</scan></td>
             </tr>
         }
 
@@ -58,12 +59,12 @@
     
     protected override async Task OnInitializedAsync()
     {
-        mShoppingLists = await shoppingService.GetAll(); //await Http.GetFromJsonAsync<ShoppingItem[]>($"{serverUrl}/api/shopping/getall");
-    }
+        mShoppingLists = await shoppingService.GetAll();}
 
     public async Task HandleValidSubmit()
     {
         await AddShoppingList();
+        mShoppingLists = await shoppingService.GetAll();
     }
 
     private async Task AddShoppingList()

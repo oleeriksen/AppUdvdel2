@@ -7,8 +7,9 @@ namespace WebApp1.Service.Login;
 public class LoginServiceServerSide : LoginServiceClientSide
 {
     private HttpClient http;
+
+    private string serverUrl = ServerConfig.ServerUrl;
     
-    private string serverUrl = "http://localhost:5151";
     public LoginServiceServerSide(ILocalStorageService ls, HttpClient http) : base(ls)
     {
         this.http = http;

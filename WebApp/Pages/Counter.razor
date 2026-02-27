@@ -1,0 +1,27 @@
+﻿@page "/counter"
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status" style="color: @color">Current count: @currentCount</p>
+
+<button @onclick="IncrementCount">Click me</button>
+
+@code {
+    private int currentCount = 0;
+
+    private string color = "red";
+
+    private void IncrementCount()
+    {
+        currentCount++;
+        if (currentCount % 2 == 0) // lige
+            color = "red";
+        else
+        
+            color = "black";
+        
+    }
+
+}

@@ -1,0 +1,57 @@
+@page "/todo"
+@using WebApp.Model
+<h3>Todo (@CountMissing() mangler)</h3>
+
+<ul>
+@foreach (TodoItem todo in mTodos)
+{
+    <li>
+        @if (todo.IsDone)
+        {
+            <i class="bi bi-check-circle fs-3" @onclick="() => todo.IsDone = false"></i>
+        }
+        else
+        {
+            <i class="bi bi-circle fs-3" @onclick="() => todo.IsDone = true"></i>
+
+        }
+        
+         --- <scan style="font-weight: bold">@todo.Title </scan>
+    </li>
+}
+</ul>
+<InputText @bind-Value="newTodoTitle" placeholder="Skriv en ny to-do">
+    
+</InputText>
+<button class="btn btn-primary" @onclick="AddTodo">Opret</button>
+
+@code {
+    List<TodoItem> mTodos= new();
+
+    string newTodoTitle = "";
+
+    protected override void OnInitialized()
+    {
+        mTodos.Add(new TodoItem { IsDone = true, Title = "Lektier" });
+        mTodos.Add(new TodoItem { IsDone = false, Title = "flere lektier" });
+    }
+
+
+    private void AddTodo()
+    {
+        TodoItem newTd = new TodoItem { IsDone = false, Title = newTodoTitle };
+        newTodoTitle = "";
+        mTodos.Add(newTd);
+    }
+    
+    // retur: antal ikke done items i mTodos
+    private int CountMissing()
+    {
+        int result = 0;
+        foreach (TodoItem t in mTodos)
+            if (!t.IsDone)
+                result++;
+        return result;
+    }
+
+}

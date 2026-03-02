@@ -26,7 +26,7 @@
 <button class="btn btn-primary" @onclick="AddTodo">Opret</button>
 
 @code {
-    List<TodoItem> mTodos= new();
+    List<TodoItem> mTodos = new();
 
     string newTodoTitle = "";
 
@@ -43,7 +43,7 @@
         newTodoTitle = "";
         mTodos.Add(newTd);
     }
-    
+
     // retur: antal ikke done items i mTodos
     private int CountMissing()
     {

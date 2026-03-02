@@ -2,28 +2,38 @@
 @using WebApp.Model
 <h3>MyDices</h3>
 
-<img src="@FileName(d1.Eyes())" width="100" height="100"/>
-<img src="@FileName(d2.Eyes())" width="100" height="100"/>
+@foreach (Dice d in dices)
+{
+    <img src="@FileName(d.Eyes())" width="100" height="100"/>
+}
 
-<button @onclick="OnClickRoll">Roll</button>
+<button class="btn btn-primary" @onclick="OnClickRoll">Roll</button>
+<button @onclick="AddDice">+</button>
 @code {
-    Dice d1 = new(), d2 = new();
+    List<Dice> dices;
 
     protected override void OnInitialized()
     {
-        d1.Roll();
-        d2.Roll();
+        dices = new();
+        dices.Add(new Dice());
+        dices.Add(new Dice());
+        OnClickRoll();
     }
 
     private void OnClickRoll()
     {
-        d1.Roll();
-        d2.Roll();
+        foreach (Dice d in dices)
+            d.Roll();
     }
 
     string FileName(int eyes)
     {
         return $"images/dices/dice{eyes}.png";
+    }
+
+    private void AddDice()
+    {
+        dices.Add(new Dice());
     }
 
 }

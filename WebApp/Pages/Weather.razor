@@ -39,17 +39,17 @@ else
 }
 
 @code {
-    private WeatherForecast[]? forecasts;
+    private List<WeatherForecast>? forecasts;
 
-    protected override async Task OnInitializedAsync()
+    /*protected override async Task OnInitializedAsync()
     {
         forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
         DateOnly d = DateOnly.FromDateTime(DateTime.Now);
         for (int dage = 0; dage < forecasts.Length; dage++)
             forecasts[dage].Date = d.AddDays(dage);
 
-    }
-/*
+    }*/
+
     protected override void OnInitialized() {
         string[] summaries = { "Koldt og blæsende", "varmt og solrigt", "stille og gråt" };
         forecasts = new();
@@ -62,7 +62,7 @@ else
             forecasts.Add(wf);
         }
     }
-  */  
+    
     public class WeatherForecast
     {
         public DateOnly Date { get; set; }

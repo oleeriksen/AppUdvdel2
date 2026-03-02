@@ -1,6 +1,29 @@
-@page "/MyDices"
+@page "/mydices"
+@using WebApp.Model
 <h3>MyDices</h3>
 
+<img src="@FileName(d1.Eyes())" width="100" height="100"/>
+<img src="@FileName(d2.Eyes())" width="100" height="100"/>
+
+<button @onclick="OnClickRoll">Roll</button>
 @code {
-    
+    Dice d1 = new(), d2 = new();
+
+    protected override void OnInitialized()
+    {
+        d1.Roll();
+        d2.Roll();
+    }
+
+    private void OnClickRoll()
+    {
+        d1.Roll();
+        d2.Roll();
+    }
+
+    string FileName(int eyes)
+    {
+        return $"images/dices/dice{eyes}.png";
+    }
+
 }

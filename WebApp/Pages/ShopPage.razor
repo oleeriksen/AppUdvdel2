@@ -1,0 +1,36 @@
+@page "/shop"
+@using WebApp.Model
+<h3>ShopPage</h3>
+
+@foreach (Item item in visibleItems)
+{
+    <p style="color:@item.Color">@item.Name - @item.Price - @item.Stock</p>
+}
+<button class="btn-primary" @onclick="ShowAll" >Vis Alle</button>
+
+<button class="btn-primary" @onclick="ShowItemsInStock" >Vis varer på lager</button>
+
+<p>Total kapital bundet på lageret: @mShop.TotalStockCapital()</p>
+
+
+@code {
+    Shop mShop = new();
+
+    List<Item> visibleItems = new();
+
+    protected override void OnInitialized()
+    {
+        ShowAll();
+    }
+
+    private void ShowAll()
+    {
+        visibleItems = mShop.Items();
+    }
+
+    void ShowItemsInStock()
+    {
+        visibleItems = mShop.ItemsInStock();
+    }
+
+}

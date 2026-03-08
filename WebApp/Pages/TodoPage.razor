@@ -6,17 +6,8 @@
 @foreach (TodoItem todo in mTodos)
 {
     <li>
-        @if (todo.IsDone)
-        {
-            <i class="bi bi-check-circle fs-3" @onclick="() => todo.IsDone = false"></i>
-        }
-        else
-        {
-            <i class="bi bi-circle fs-3" @onclick="() => todo.IsDone = true"></i>
-
-        }
-        
-         --- <scan style="font-weight: bold">@todo.Title </scan>
+            <i class=@CheckClass(todo.IsDone) @onclick="() => ToggleToDo(todo)"></i>
+         --- <span style="font-weight: bold">@todo.Title </span>
     </li>
 }
 </ul>
@@ -52,6 +43,28 @@
             if (!t.IsDone)
                 result++;
         return result;
+    }
+
+    /// <summary>
+    /// Return the class for a boolean value isChecked
+    /// </summary>
+    /// <param name="isChecked"></param>
+    /// <returns></returns>
+    private string CheckClass(bool isChecked)
+    {
+        if (isChecked)
+            return "bi bi-check-circle fs-3";
+        else
+            return "bi bi-circle fs-3";
+    }
+
+    /// <summary>
+    /// Set the IsDone to the opposite for item
+    /// </summary>
+    /// <param name="item"></param>
+    private void ToggleToDo(TodoItem item)
+    {
+        item.IsDone = !item.IsDone;
     }
 
 }

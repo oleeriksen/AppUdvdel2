@@ -1,16 +1,29 @@
-@page "/todo"
+@page "/todo2"
+@inject Blazored.LocalStorage.ILocalStorageService localStore
 @using WebApp.Model
 <h3>Todo (@CountMissing() mangler)</h3>
 
-<ul>
-@foreach (TodoItem todo in mTodos)
-{
-    <li>
-            <i class=@CheckClass(todo.IsDone) @onclick="() => ToggleToDo(todo)"></i>
-         --- <span style="font-weight: bold">@todo.Title </span>
-    </li>
-}
-</ul>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">Is Done?</th>
+        <th scope="col">Title</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (TodoItem todo in mTodos)
+    {
+        <tr>
+            <td>
+                <i class=@CheckClass(todo.IsDone) @onclick="() => ToggleToDo(todo)"></i>
+            </td>
+            <td>
+                <span class="Title-Text">@todo.Title </span>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
 <InputText @bind-Value="newTodoTitle" placeholder="Skriv en ny to-do">
     
 </InputText>
@@ -21,18 +34,28 @@
 
     string newTodoTitle = "";
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        mTodos.Add(new TodoItem { IsDone = true, Title = "Lektier" });
-        mTodos.Add(new TodoItem { IsDone = false, Title = "flere lektier" });
+        var res = await localStore.GetItemAsync <List<TodoItem>?>("todos");
+        if (res is null)
+        {
+            mTodos.Add(new TodoItem { IsDone = true, Title = "Lektier" });
+            mTodos.Add(new TodoItem { IsDone = false, Title = "flere lektier" });
+        }
+        else
+        {
+            mTodos = res;
+        }
     }
 
 
-    private void AddTodo()
+    private async Task AddTodo()
     {
         TodoItem newTd = new TodoItem { IsDone = false, Title = newTodoTitle };
         newTodoTitle = "";
         mTodos.Add(newTd);
+        await localStore.SetItemAsync("todos", mTodos);
+
     }
 
     /// <summary>
@@ -65,9 +88,11 @@
     /// Set the IsDone of item to the opposite
     /// </summary>
     /// <param name="item"></param>
-    private void ToggleToDo(TodoItem item)
+    private async Task ToggleToDo(TodoItem item)
     {
         item.IsDone = !item.IsDone;
+        await localStore.SetItemAsync("todos", mTodos);
+
     }
 
 }

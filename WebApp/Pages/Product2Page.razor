@@ -42,9 +42,12 @@
     
     private Product aProduct = new();
 
+    List<Product> mProducts = new();
 
-    private void HandleSubmit()
+    private async Task HandleSubmit()
     {
         Console.WriteLine($"A new product is created - name: {aProduct.Name}");
+        mProducts.Add(aProduct);
+        aProduct = new();
     }
 }

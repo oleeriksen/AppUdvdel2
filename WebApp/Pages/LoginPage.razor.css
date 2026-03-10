@@ -1,0 +1,46 @@
+
+/* Login-boks */
+.login-container {
+    max-width: 420px;
+    width: 315px;
+    margin: 5rem auto;
+    background-color: #AAAAAA; 
+    padding: 2rem;
+    border-radius: 10px;
+}
+
+h3 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+
+
+
+/* Fejlbesked */
+.error-message {
+    background-color: #FFF4F4;
+    border-left: 4px solid #E74C3C;
+    color: #C0392B;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(231, 76, 60, 0.1);
+    transition: all 0.3s ease;
+}
+
+
+/* Fejlikon */
+.error-icon {
+    margin-right: 0.75rem;
+    font-size: 1rem;
+    color: #E74C3C;
+}
+
+/* Fejltekst */
+.error-text {
+    flex: 1;
+}

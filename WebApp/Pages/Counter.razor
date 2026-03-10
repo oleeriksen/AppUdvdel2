@@ -1,5 +1,10 @@
 ﻿@page "/counter"
+@using Blazored.SessionStorage
+@using WebApp.Model
+@using WebApp.Service
 @inject Blazored.LocalStorage.ILocalStorageService localStore
+@inject ISessionStorageService sessionStorage
+@inject NavigationManager navMan
 
 
 <PageTitle>Counter</PageTitle>
@@ -15,13 +20,21 @@
 
     private string color = "red";
 
-    protected async override Task OnInitializedAsync()
+    User? loggedInUser; 
+
+    protected override async Task OnInitializedAsync()
     {
+        
+        loggedInUser = LoginService.LoggedInUser;
+        //loggedInUser = await sessionStorage.GetItemAsync<User?>("user");
+        if (loggedInUser == null)
+            navMan.NavigateTo("login");
         int? savedNumber = await localStore.GetItemAsync<int?>("cc");
         if (savedNumber is null)
             currentCount = 0;
         else
             currentCount = savedNumber.Value;
+        
         
     }
 

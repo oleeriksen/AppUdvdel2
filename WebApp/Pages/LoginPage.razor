@@ -45,15 +45,14 @@
     //Bruges til at vise errortext hvis relevant
     string errorText = "";
     
-    private async Task OnClickLogin()
-    {
+    private async Task OnClickLogin()  {
         LoginService loginService = new();
         User? loggedIn = loginService.ValidLogin(username, password);
         if (loggedIn != null)
         {
-            //await sessionStorage.SetItemAsync("user", loggedIn);
+            await sessionStorage.SetItemAsync("user", loggedIn);
 
-            navManager.NavigateTo("/");
+            navManager.NavigateTo("/", true);
         }
         else
         {

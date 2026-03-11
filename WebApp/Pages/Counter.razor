@@ -24,11 +24,13 @@
 
     protected override async Task OnInitializedAsync()
     {
-        
-        loggedInUser = LoginService.LoggedInUser;
-        //loggedInUser = await sessionStorage.GetItemAsync<User?>("user");
+        loggedInUser = await sessionStorage.GetItemAsync<User?>("user");
         if (loggedInUser == null)
             navMan.NavigateTo("login");
+        
+        // other stuff
+        
+        
         int? savedNumber = await localStore.GetItemAsync<int?>("cc");
         if (savedNumber is null)
             currentCount = 0;

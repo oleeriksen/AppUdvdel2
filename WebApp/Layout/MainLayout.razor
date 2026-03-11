@@ -1,5 +1,5 @@
 ﻿@using WebApp.Model
-@using WebApp.Service
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
 @inherits LayoutComponentBase
 <div class="page">
     
@@ -9,7 +9,7 @@
     
     <main>
         <div class="top-row px-4">
-            
+            <i>Logged in as: <b>@LoggedInText</b> </i>
         </div>
 
         <article class="content px-4">
@@ -22,7 +22,11 @@
 </div>
 @code
 {
-    
+    User? loggedIn;
+    protected override async Task OnInitializedAsync()
+    {
+        loggedIn = await sessionStorage.GetItemAsync<User?>("user");
+    }
 
-
+    private string LoggedInText => loggedIn is null ? "none" : $"{loggedIn.Name} [{loggedIn.Role}]";
 }

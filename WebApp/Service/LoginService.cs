@@ -4,9 +4,7 @@ namespace WebApp.Service;
 public class LoginService
 {
     private List<User> mUsers;
-
-    public static User? LoggedInUser { get; set; }
-
+    
     public LoginService()
     {
         mUsers = [
@@ -28,7 +26,6 @@ public class LoginService
         foreach (User u in mUsers)
             if (u.Name == name && u.Password == password)
             {
-                LoggedInUser = u;
                 return u;
             }
         return null;

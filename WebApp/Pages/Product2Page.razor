@@ -37,6 +37,10 @@
     </div>
 </EditForm>
 
+@foreach (Product p in mProducts)
+{
+    <p>@p.Name - @p.Price kr</p>
+}
 
 @code {
     
@@ -44,7 +48,7 @@
 
     List<Product> mProducts = new();
 
-    private async Task HandleSubmit()
+    private void HandleSubmit()
     {
         Console.WriteLine($"A new product is created - name: {aProduct.Name}");
         mProducts.Add(aProduct);

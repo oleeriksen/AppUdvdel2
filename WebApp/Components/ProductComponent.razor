@@ -1,0 +1,19 @@
+@using WebApp.Model
+
+@if (product.Price <= 10000 || (loggedIn != null && loggedIn.Role.Equals("admin")))
+{
+    
+    <tr>
+        <td>@product.Name</td>
+        <td>@product.Price</td>
+    </tr>
+}
+@code {
+    [Parameter]
+    public Product product { get; set; }
+    
+
+    [Parameter]
+    public User? loggedIn { get; set; }
+
+}

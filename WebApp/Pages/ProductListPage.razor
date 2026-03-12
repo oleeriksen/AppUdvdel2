@@ -1,0 +1,33 @@
+@page "/ProductListPage"
+@using WebApp.Model
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject NavigationManager nav
+<h3>ProductListPage</h3>
+@foreach (Product p in mProducts)           
+{                                           
+    <p>@p.Name - @p.Price kr</p>            
+}  
+
+<button @onclick="OnClickAdd">Add</button>
+@code {
+    List<Product>? mProducts;   
+    
+    protected override async Task OnInitializedAsync()
+    {
+        var storage = await localStorage.GetItemAsync <List<Product>> ("products");
+        if (storage is null)
+        {
+            mProducts = new();
+        }
+        else
+        {
+            mProducts = storage;
+        }
+    }
+
+    private void OnClickAdd()
+    {
+        nav.NavigateTo("addproductpage");
+    }
+
+}

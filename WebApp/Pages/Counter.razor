@@ -1,5 +1,6 @@
 ﻿@page "/counter"
 @using Blazored.SessionStorage
+@using WebApp.Components
 @using WebApp.Model
 @inject Blazored.LocalStorage.ILocalStorageService localStore
 @inject ISessionStorageService sessionStorage
@@ -10,10 +11,11 @@
 
 <h1>Counter</h1>
 
+<TimeComponentV3/>
 
 <p role="status" style="color: @color">Current count: @currentCount</p>
 
-@if (loggedInUser.Role == "admin")
+@if (loggedInUser != null && loggedInUser.Role == "admin")
 {
     <button @onclick="IncrementCount">Click me</button>
     

@@ -1,4 +1,5 @@
 @page "/product"
+@using WebApp.Components
 @using WebApp.Model
 
 <h1 class="mb-3 mt-3">Create Product</h1>
@@ -31,15 +32,22 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </div>
 </EditForm>
-
+<ModalDialog @ref="confirmSave" Title="ER du sikker?">
+    Er du sikker på du vil gemme produktet?
+    <button >JA</button>
+    <button @onclick="() => confirmSave.Close()">NEJ</button>
+</ModalDialog>
 
 @code {
     
     private Product aProduct = new();
 
 
+    ModalDialog? confirmSave;
+    
     private void HandleSubmit()
     {
+        confirmSave.Open();
         Console.WriteLine($"A new product is created - name: {aProduct.Name}");
     }
 }

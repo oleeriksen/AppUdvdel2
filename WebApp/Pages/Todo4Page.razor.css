@@ -1,0 +1,53 @@
+.Title-Text{
+    font-weight: bold;
+    color:darkgreen;
+}
+
+.todo-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    justify-content: space-between;
+}
+
+.todo-card {
+    background-color: #ccc;
+    border-radius: 14px;
+    width: 48%;
+    padding: 1.2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease;
+    min-height: 120px;
+    animation: slideInTop 0.8s ease;
+    position: relative;
+}
+
+.todo-card:hover {
+    transform: translateY(-12px);
+    box-shadow: 10px 6px 14px rgba(0, 0, 0, 0.4);
+}
+
+.todo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 1rem;
+    align-items: center;
+}
+
+.todo-left, .todo-center {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-size: 0.95rem;
+    color: #1C2B38;
+}
+
+.todo-left p,
+.todo-center p {
+    margin: 0;
+    font-weight: 500;
+}

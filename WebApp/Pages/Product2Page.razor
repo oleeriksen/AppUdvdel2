@@ -1,4 +1,5 @@
 @page "/product2"
+@using WebApp.Components
 @using WebApp.Model
 
 <h1 class="mb-3 mt-3">Create Product</h1>
@@ -41,6 +42,11 @@
 {
     <p>@p.Name - @p.Price kr</p>
 }
+<ModalDialog @ref="checkSave" Title="Validation">
+    Er du sikker på du vil gemme produktet med navn @aProduct.Name?
+    <button @onclick="SaveProduct">Ja</button>
+</ModalDialog>
+
 
 @code {
     
@@ -48,10 +54,17 @@
 
     List<Product> mProducts = new();
 
-    private void HandleSubmit()
+    private ModalDialog? checkSave;
+
+    private void SaveProduct()
     {
-        Console.WriteLine($"A new product is created - name: {aProduct.Name}");
         mProducts.Add(aProduct);
         aProduct = new();
+        checkSave.Close();
+    }
+
+    private void HandleSubmit()
+    {
+        checkSave.Open();
     }
 }

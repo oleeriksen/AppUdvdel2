@@ -1,0 +1,94 @@
+@page "/todo4"
+@using WebApp.Components
+@using WebApp.Model
+<h3>Todo (@CountMissing() mangler)</h3>
+
+<div class="todo-container">
+    @foreach (TodoItem todo in mTodos)
+    {
+        <div class="todo-card">
+            
+            <div class="todo-center">
+                <i class=@CheckClass(todo.IsDone) @onclick="() => ToggleToDo(todo)"></i>
+            
+                <span class="Title-Text">@todo.Title </span>
+            </div>
+        </div>
+    }
+</div>
+<button class="btn btn-primary" @onclick="OpenAddDialog">Opret</button>
+
+<ModalDialog @ref="addModalDialog" Title="Add Todo Item">
+    
+    <InputText @bind-Value="newTodoTitle" placeholder="Skriv en ny to-do">
+    </InputText>
+    <button class="btn btn-primary" @onclick="AddTodo">Opret</button>
+    <button class="btn" @onclick="CancelAddTodo">Cancel</button>
+</ModalDialog>
+
+@code {
+    List<TodoItem> mTodos= new();
+
+    string newTodoTitle = "";
+
+    ModalDialog? addModalDialog { get; set; }
+
+    protected override void OnInitialized()
+    {
+        mTodos.Add(new TodoItem { IsDone = true, Title = "Lektier" });
+        mTodos.Add(new TodoItem { IsDone = false, Title = "flere lektier" });
+    }
+
+
+    private void AddTodo()
+    {
+        TodoItem newTd = new TodoItem { IsDone = false, Title = newTodoTitle };
+        newTodoTitle = "";
+        mTodos.Add(newTd);
+        addModalDialog.Close();
+    }
+
+    private void CancelAddTodo()
+    {
+        addModalDialog.Close();
+    }
+
+    private void OpenAddDialog()
+    {
+        addModalDialog.Open();
+    }
+
+    // retur: antal ikke done items i mTodos
+    private int CountMissing()
+    {
+        int result = 0;
+        foreach (TodoItem t in mTodos)
+            if (!t.IsDone)
+                result++;
+        return result;
+    }
+    
+    /// <summary>
+    /// Return the class for a boolean value isChecked
+    /// </summary>
+    /// <param name="isChecked"></param>
+    /// <returns></returns>
+    private string CheckClass(bool isChecked)
+    {
+        if (isChecked)
+            return "bi bi-check-circle fs-3";
+        else
+            return "bi bi-circle fs-3";
+    }
+
+    /// <summary>
+    /// Set the IsDone of item to the opposite
+    /// </summary>
+    /// <param name="item"></param>
+    private void ToggleToDo(TodoItem item)
+    {
+        item.IsDone = !item.IsDone;
+
+    }
+
+}

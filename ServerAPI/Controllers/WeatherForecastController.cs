@@ -25,6 +25,12 @@ public class WeatherForecastController : ControllerBase
     }
     
     [HttpGet]
+    [Route("beregn/{a:int}/{b:int}")]
+    public string GetByNumber(int a, int b)
+    {
+        return $"Første: {a} - anden: {b}";
+    }
+    [HttpGet]
     [Route("{summary}")]
     public List<WeatherForecast> GetBySummary(string summary)
     {

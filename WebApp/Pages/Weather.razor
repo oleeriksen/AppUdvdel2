@@ -42,16 +42,18 @@ else
 @code {
     private List<WeatherForecast>? forecasts;
 
-    /*protected override async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
-        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
-        DateOnly d = DateOnly.FromDateTime(DateTime.Now);
-        for (int dage = 0; dage < forecasts.Length; dage++)
+        forecasts = await Http.GetFromJsonAsync<List<WeatherForecast>>("sample-data/weather.json");
+        /*
+         DateOnly d = DateOnly.FromDateTime(DateTime.Now);
+        for (int dage = 0; dage < forecasts.Count; dage++)
             forecasts[dage].Date = d.AddDays(dage);
+        */
 
-    }*/
+    }
 
-    protected override void OnInitialized() {
+    /*protected override void OnInitialized() {
         string[] summaries = { "Koldt og blæsende", "varmt og solrigt", "stille og gråt" };
         forecasts = new();
         for (int i = 0; i < 20; i++) {
@@ -62,7 +64,7 @@ else
             };
             forecasts.Add(wf);
         }
-    }
+    }*/
     
     public class WeatherForecast
     {

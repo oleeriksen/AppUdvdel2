@@ -1,3 +1,4 @@
+using Core.Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ServerAPI.Controllers;
@@ -12,33 +13,35 @@ public class WeatherForecastController : ControllerBase
     ];
 
     [HttpGet]
-    public WeatherForecast[] Get()
+    public List<WeatherForecast> Get()
     {
         return GetByCount(10);
     }
     
     [HttpGet]
     [Route("{count:int}")]
-    public WeatherForecast[] GetByNumber(int count)
+    public List<WeatherForecast> GetByNumber(int count)
     {
         return GetByCount(count);
     }
     
     [HttpGet]
-    [Route("beregn/{a:int}/{b:int}")]
-    public string GetByNumber(int a, int b)
+    [Route("interval/{min:int}/{max:int}")]
+    public List<WeatherForecast> GetByInterval(int min, int max)
     {
-        return $"Første: {a} - anden: {b}";
+        var all = GetByCount(1000);
+        return all.Where(w => min <= w.TemperatureC && w.TemperatureC <= max).ToList();
     }
+    
     [HttpGet]
-    [Route("{summary}")]
+    [Route("summary/{summary}")]
     public List<WeatherForecast> GetBySummary(string summary)
     {
         var all = GetByCount(1000);
         return all.Where(w => w.Summary.Equals(summary, StringComparison.OrdinalIgnoreCase)).ToList();
     }
 
-    private WeatherForecast[] GetByCount(int count)
+    private List<WeatherForecast> GetByCount(int count)
     {
         return Enumerable.Range(1, count).Select(index => new WeatherForecast
             {
@@ -46,6 +49,6 @@ public class WeatherForecastController : ControllerBase
                 TemperatureC = Random.Shared.Next(-20, 55),
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
-            .ToArray();
+            .ToList();
     }
 }

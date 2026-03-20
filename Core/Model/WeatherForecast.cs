@@ -1,4 +1,4 @@
-namespace ServerAPI;
+namespace Core.Model;
 
 public class WeatherForecast
 {

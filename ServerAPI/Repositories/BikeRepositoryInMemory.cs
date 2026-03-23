@@ -19,8 +19,13 @@ namespace ServerAPI.Repositories
         public void Add(Bike bike)
         {
             // bike must have a unique id...
-            
-            bike.Id = mBikes.Count + 1;
+            // solution 1: compute the maximal id, and 1 one to that
+            if (mBikes.Count == 0)
+                bike.Id = 1;
+            else
+                bike.Id = mBikes.Select(b => b.Id).Max() + 1;
+            // solution 2: pick a random number...
+            bike.Id = Random.Shared.Next();
             mBikes.Add(bike);  
         }
 

@@ -17,7 +17,7 @@ else
         @foreach (var bike in bikes)
         {
             <tr class="bikeRow">
-                <td><h2>@bike.Brand - @bike.Model</h2><br />
+                <td><h2>@bike.Id --- @bike.Brand - @bike.Model</h2><br />
                     Price: @bike.Price kr.</td>
                 <td><img class="bikeImg" src="@bike.ImageUrl" width="200px"/></td>
                 <td><button class="btn-close" @onclick="() => DeleteBike(bike)"></button></td>
@@ -45,7 +45,10 @@ else
 
     private async Task DeleteBike(Bike bike)
     {
-        await http.DeleteAsync($"http://localhost:5269/api/bike/delete/{bike.Id}");
+        //await http.DeleteAsync($"http://localhost:5269/api/bike/delete/{bike.Id}");
+        await http.DeleteAsync($"http://localhost:5269/api/bike/delete?id={bike.Id}");
+
+        
         // Update UI
         bikes = await http.GetFromJsonAsync<Bike[]>("http://localhost:5269/api/bike");
     }

@@ -13,7 +13,7 @@ namespace ServerAPI.Repositories
                                         new Bike { Id = 4, Brand = "Factor", Model="O2", Description="", Price=51000, ImageUrl="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSk5bOFdCSSfbEd944YbqFJObVhL7RlNCq5yA&usqp=CAU"}
         };
 
-        private static List<Bike> mBikes = bikes.ToList();
+        private List<Bike> mBikes = bikes.ToList();
 
         
         public void Add(Bike bike)

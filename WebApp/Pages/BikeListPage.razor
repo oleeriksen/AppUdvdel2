@@ -20,7 +20,7 @@ else
                 <td><h2>@bike.Id --- @bike.Brand - @bike.Model</h2><br />
                     Price: @bike.Price kr.</td>
                 <td><img class="bikeImg" src="@bike.ImageUrl" width="200px"/></td>
-                <td><button class="btn-close" @onclick="() => DeleteBike(bike)"></button></td>
+                <td><button class="btn-close" @onclick="() => DeleteBike(bike.Id)"></button></td>
             </tr>
         }
         </tbody>
@@ -43,10 +43,10 @@ else
         navMan.NavigateTo("addbike");
     }
 
-    private async Task DeleteBike(Bike bike)
+    private async Task DeleteBike(int id)
     {
-        //await http.DeleteAsync($"http://localhost:5269/api/bike/delete/{bike.Id}");
-        await http.DeleteAsync($"http://localhost:5269/api/bike/delete?id={bike.Id}");
+        //await http.DeleteAsync($"http://localhost:5269/api/bike/delete/{id}");
+        await http.DeleteAsync($"http://localhost:5269/api/bike/delete?id={id}");
 
         
         // Update UI

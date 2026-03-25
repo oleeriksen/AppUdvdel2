@@ -1,7 +1,7 @@
 using Core.Model;
 using Microsoft.AspNetCore.Mvc;
 using ServerAPI.Repositories;
-using WebApp.Model;
+
 
 namespace ServerAPI.Controllers;
 
@@ -14,26 +14,33 @@ public class ToDoController : ControllerBase
     [HttpGet]
     public List<TodoItem> Get()
     {
-        return new();
+        return todoRepo.GetAll();
     }
 
     [HttpPost]
     public void Add(TodoItem item)
     {
-        
+        todoRepo.Add(item);
     }
 
     [HttpDelete]
     [Route("delete/{id:int}")]
     public void Delete(int id)
     {
-        
+        todoRepo.DeleteById(id);
     }
 
     [HttpDelete]
     [Route("delete")]
     public void DeleteByQuery([FromQuery] int id)
     {
-        
+        todoRepo.DeleteById(id);
+    }
+
+    [HttpPut]
+    [Route("toogle/{id:int}")]
+    public void ToggleItem(int id)
+    {
+        todoRepo.Toogle(id);
     }
 }

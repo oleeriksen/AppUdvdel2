@@ -1,6 +1,6 @@
 @page "/todo3"
-@inject Blazored.LocalStorage.ILocalStorageService localStore
-@using WebApp.Model
+@inject HttpClient http
+@using Core.Model
 <h3>Todo (@CountMissing() mangler)</h3>
 
 <div class="todo-container">
@@ -12,6 +12,7 @@
             <i class=@CheckClass(todo.IsDone) @onclick="() => ToggleToDo(todo)"></i>
             
             <span class="Title-Text">@todo.Title </span>
+            <button class="btn-close" @onclick="() => DeleteTodo(todo.Id)"></button>
             </div>
         </div>
     }
@@ -28,26 +29,21 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var res = await localStore.GetItemAsync <List<TodoItem>?>("todos");
-        if (res is null)
-        {
-            mTodos.Add(new TodoItem { IsDone = true, Title = "Lektier" });
-            mTodos.Add(new TodoItem { IsDone = false, Title = "flere lektier" });
-        }
-        else
-        {
-            mTodos = res;
-        }
+        await LoadAll();
     }
 
+    private async Task LoadAll()
+    {
+        mTodos = await http.GetFromJsonAsync<List<TodoItem>>("http://localhost:5269/api/todo");
+
+    }
 
     private async Task AddTodo()
     {
         TodoItem newTd = new TodoItem { IsDone = false, Title = newTodoTitle };
         newTodoTitle = "";
-        mTodos.Add(newTd);
-        await localStore.SetItemAsync("todos", mTodos);
-
+        await http.PostAsJsonAsync("http://localhost:5269/api/todo", newTd);
+        await LoadAll();
     }
 
     /// <summary>
@@ -83,8 +79,14 @@
     private async Task ToggleToDo(TodoItem item)
     {
         item.IsDone = !item.IsDone;
-        await localStore.SetItemAsync("todos", mTodos);
 
+        await http.PutAsync($"http://localhost:5269/api/todo/toogle/{item.Id}", null);
+    }
+
+    private async Task DeleteTodo(int todoId)
+    {
+        await http.DeleteAsync($"http://localhost:5269/api/todo/delete/{todoId}");
+        await LoadAll();
     }
 
 }

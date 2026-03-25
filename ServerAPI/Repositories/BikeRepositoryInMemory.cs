@@ -4,7 +4,7 @@ using Core.Model;
 
 namespace ServerAPI.Repositories
 {
-	public class BikeRepositoryInMemory 
+	public class BikeRepositoryInMemory : IBikeRepository 
 	{
 
         private static Bike[] bikes = { new Bike { Id = 1, Brand = "TREK", Model="Modane",Description="", Price=40000, ImageUrl="https://trek.scene7.com/is/image/TrekBicycleProducts/DomaneSL6eTap_23_36152_A_Primary?$responsive-pjpg$&cache=on,on&wid=1920&hei=1440"},
@@ -29,7 +29,9 @@ namespace ServerAPI.Repositories
             mBikes.Add(bike);  
         }
 
-        public void DeleteById(int id)
+        
+
+        public void Delete(int id)
         {
             mBikes.RemoveAll((b) => b.Id == id);
         }

@@ -8,7 +8,12 @@ namespace ServerAPI.Controllers;
 [Route("api/bike")]
 public class BikeController : ControllerBase
 {
-    private static readonly BikeRepositoryInMemory bikeRepo = new();
+    private IBikeRepository bikeRepo;
+
+    public BikeController(IBikeRepository repo)
+    {
+        bikeRepo = repo;
+    }
 
     [HttpGet]
     public Bike[] Get()
@@ -26,13 +31,13 @@ public class BikeController : ControllerBase
     [Route("delete/{id:int}")]
     public void Delete(int id)
     {
-        bikeRepo.DeleteById(id);
+        bikeRepo.Delete(id);
     }
 
     [HttpDelete]
     [Route("delete")]
     public void DeleteByQuery([FromQuery] int id)
     {
-        bikeRepo.DeleteById(id);
+        bikeRepo.Delete(id);
     }
 }

@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 // inject the proper class for IBikeRepository
-builder.Services.AddSingleton<IBikeRepository, BikeRepositoryMongoDB>();
+builder.Services.AddSingleton<IBikeRepository, BikeRepositoryInMemory>();
 
 builder.Services.AddCors(options =>
 {

@@ -34,7 +34,7 @@
 
     private async Task LoadAll()
     {
-        mTodos = await http.GetFromJsonAsync<List<TodoItem>>("http://localhost:5269/api/todo");
+        mTodos = await http.GetFromJsonAsync<List<TodoItem>>($"{Config.ServerUrl}/api/todo");
 
     }
 
@@ -42,7 +42,7 @@
     {
         TodoItem newTd = new TodoItem { IsDone = false, Title = newTodoTitle };
         newTodoTitle = "";
-        await http.PostAsJsonAsync("http://localhost:5269/api/todo", newTd);
+        await http.PostAsJsonAsync($"{Config.ServerUrl}/api/todo", newTd);
         await LoadAll();
     }
 
@@ -80,12 +80,12 @@
     {
         item.IsDone = !item.IsDone;
 
-        await http.PutAsync($"http://localhost:5269/api/todo/toogle/{item.Id}", null);
+        await http.PutAsync($"{Config.ServerUrl}/api/todo/toogle/{item.Id}", null);
     }
 
     private async Task DeleteTodo(int todoId)
     {
-        await http.DeleteAsync($"http://localhost:5269/api/todo/delete/{todoId}");
+        await http.DeleteAsync($"{Config.ServerUrl}/api/todo/delete/{todoId}");
         await LoadAll();
     }
 

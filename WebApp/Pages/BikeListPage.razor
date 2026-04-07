@@ -1,7 +1,8 @@
 ﻿@page "/bikelist"
 @using Core.Model
+@using WebApp.Service
 @inject NavigationManager navMan
-@inject HttpClient http
+@inject IBikeService  bikeService
 <PageTitle>Bikes</PageTitle>
 
 <h1>Bikes</h1>
@@ -31,11 +32,11 @@ else
 
 @code {
 
-    private Bike[]? bikes;
+    private List<Bike> bikes;
     
     protected override async Task OnInitializedAsync()
     {
-        bikes = await http.GetFromJsonAsync<Bike[]>("http://localhost:5269/api/bike");
+        bikes = await bikeService.GetAll();
     }
     
     private void OnClickCreateBike()
@@ -46,11 +47,11 @@ else
     private async Task DeleteBike(int id)
     {
         //await http.DeleteAsync($"http://localhost:5269/api/bike/delete/{id}");
-        await http.DeleteAsync($"http://localhost:5269/api/bike/delete?id={id}");
+        await bikeService.DeleteById(id);
 
         
         // Update UI
-        bikes = await http.GetFromJsonAsync<Bike[]>("http://localhost:5269/api/bike");
+        bikes = await bikeService.GetAll();
     }
 
 }

@@ -12,14 +12,16 @@ public class BikeServiceMock : IBikeService
         return mBikes;
     }
 
-    public async Task DeleteById(int id)
+    public Task DeleteById(int id)
     {
         mBikes.RemoveAll(b => b.Id == id);
+        return Task.CompletedTask;
     }
 
-    public async Task AddBike(Bike bike)
+    public Task AddBike(Bike bike)
     {
         bike.Id = Random.Shared.Next();
         mBikes.Add(bike);
+        return Task.CompletedTask;
     }
 }

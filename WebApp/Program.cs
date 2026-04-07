@@ -11,6 +11,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddBlazoredSessionStorage();
 builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-builder.Services.AddSingleton<IBikeService, BikeServiceHttp>();
+builder.Services.AddSingleton<IBikeService, BikeServiceMock>();
 
 await builder.Build().RunAsync();

@@ -2,6 +2,7 @@ using Core.Model;
 
 namespace WebApp.Service;
 
+
 public interface IBikeService
 {
     Task<List<Bike>> GetAll();

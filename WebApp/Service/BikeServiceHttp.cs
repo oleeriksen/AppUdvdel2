@@ -17,7 +17,7 @@ public class BikeServiceHttp : IBikeService
 
     public async Task<List<Bike>?> GetAll()
     {
-        var data = await client.GetFromJsonAsync<List<Bike>>($"{Config.ServerUrl}/api/bike");
+        var data = await client.GetFromJsonAsync<List<Bike>?>($"{Config.ServerUrl}/api/bike");
         return data;
     }
 

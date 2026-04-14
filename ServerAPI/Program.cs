@@ -1,4 +1,5 @@
 using ServerAPI.Repositories;
+using ServerAPI.Repositories.FileRepo;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,7 @@ builder.Services.AddControllers();
 
 // inject the proper class for IBikeRepository
 builder.Services.AddSingleton<IBikeRepository, BikeRepositoryInMemory>();
+builder.Services.AddSingleton<IFileRepository, PhysicalFileRepository>();
 
 builder.Services.AddCors(options =>
 {

@@ -1,0 +1,67 @@
+@page "/gallery"
+@using WebApp.Service
+@inject IFileService fileService
+<h2>Mit galleri</h2>
+
+
+@if (keys != null)
+{
+    <div class="images-grid">
+    @foreach (string key in keys)
+    {
+        <div class="image-item">
+            <scan>@key</scan><br/>
+            <img src="@fileService.ConvertToUrl(key)" alt="Mit billede" width="100" height="100"/>
+            <button class="btn btn-close" @onclick="() => DeleteFile(key)"></button>
+        </div>
+    }
+    </div>
+}
+else
+{
+    <p>Waiting for fileserver....</p>
+}
+<h3>Add image</h3>
+<InputFile OnChange="@UploadFile" />
+<p>@statusMessage</p>
+
+
+@code {
+    
+    private string statusMessage = "";
+    
+    private List<string>? keys;
+    
+
+    protected override async Task OnInitializedAsync()
+    {
+        keys = await fileService.GetAllKeys();
+    }
+
+    private async Task UploadFile(InputFileChangeEventArgs e)
+    {
+        // compute a stream to the file chosen by the user
+        var file = e.File;
+        var stream = file.OpenReadStream(maxAllowedSize: 10_000_000); // fx 10 MB
+        
+        var res = await fileService.SendFile(file.Name, stream);
+        
+        statusMessage = res.success ? 
+            $"Success! Info fra server: <{res.info}>" : 
+            $"Fejl: {res.info}";
+        
+        keys = await fileService.GetAllKeys();
+    }
+
+    private async Task DeleteFile(string key)
+    {
+        var resp = await fileService.DeleteFile(key);
+        
+        statusMessage = resp.success ? 
+            $"Success! Info fra server:{resp.info}" : 
+            $"Fejl: {resp.info}";
+        
+        keys = await fileService.GetAllKeys();
+    }
+    
+}

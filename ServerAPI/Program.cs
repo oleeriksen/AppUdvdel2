@@ -9,7 +9,7 @@ builder.Services.AddControllers();
 
 // inject the proper class for IBikeRepository
 builder.Services.AddSingleton<IBikeRepository, BikeRepositoryInMemory>();
-builder.Services.AddSingleton<IFileRepository, PhysicalFileRepository>();
+builder.Services.AddSingleton<IFileRepository, MongoFileRepository>();
 
 builder.Services.AddCors(options =>
 {

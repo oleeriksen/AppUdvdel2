@@ -7,15 +7,15 @@ public interface IFileRepository
     
     
     // will add [file] to the repo - return the unique name it is given
-   string AddAsync(IFormFile file);
+   string Add(IFormFile file);
    
    // Get all names of files in the repo
-   List<string> GetAllAsync();
+   List<string> GetAll();
 
    // get the content of file named [fileName] as a stream, the content-type
-   (Stream Stream, string ContentType)? GetStreamAsync(
+   (Stream Stream, string ContentType)? GetStream(
        string fileName);
 
    // delete the file named [fileName]. Return true if success, false otherwise.
-   bool DeleteAsync(string fileName);
+   bool Delete(string fileName);
 }

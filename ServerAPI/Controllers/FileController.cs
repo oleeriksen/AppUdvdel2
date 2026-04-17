@@ -24,7 +24,7 @@ public class FileController : ControllerBase
         if (file == null || file.Length == 0)
             return BadRequest("No file uploaded.");
 
-        var url = mFileRep.AddAsync(file);
+        var url = mFileRep.Add(file);
         return Ok(new { url });
     }
     
@@ -34,7 +34,7 @@ public class FileController : ControllerBase
     [HttpGet("download/{filename}")]
     public IActionResult GetByName(string filename)
     {
-        var result = mFileRep.GetStreamAsync(filename);
+        var result = mFileRep.GetStream(filename);
 
         if (result is null)
             return NotFound();
@@ -51,14 +51,14 @@ public class FileController : ControllerBase
     [Route("getall")]
     public List<string> GetAll()
     {
-        var res = mFileRep.GetAllAsync();
+        var res = mFileRep.GetAll();
         return res;
     }
     
     [HttpDelete("delete/{fileName}")]
     public IActionResult Delete(string fileName)
     {
-        var deleted = mFileRep.DeleteAsync(fileName);
+        var deleted = mFileRep.Delete(fileName);
 
         if (!deleted)
             return NotFound(new { message = $"The file {fileName} not found." });

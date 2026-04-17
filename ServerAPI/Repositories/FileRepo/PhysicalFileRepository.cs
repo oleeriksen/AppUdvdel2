@@ -5,7 +5,7 @@ public class PhysicalFileRepository : IFileRepository
     private string PATH = "/Users/oler/Documents/Data/Files/uploads";
     // here files will be stored
     
-    public string AddAsync(IFormFile file)
+    public string Add(IFormFile file)
     {
         // ensure the folder is there
         if (!Directory.Exists(PATH))
@@ -28,7 +28,7 @@ public class PhysicalFileRepository : IFileRepository
         return now.Ticks.ToString();
     }
     
-    public List<string> GetAllAsync()
+    public List<string> GetAll()
     {
         // ensure the folder is there
         if (!Directory.Exists(PATH))
@@ -44,7 +44,7 @@ public class PhysicalFileRepository : IFileRepository
         return res;
     }
     
-    public (Stream Stream, string ContentType)? GetStreamAsync(string fileName)
+    public (Stream Stream, string ContentType)? GetStream(string fileName)
     {
         var filePath = Path.Combine(PATH, fileName);
 
@@ -69,7 +69,7 @@ public class PhysicalFileRepository : IFileRepository
         return contentType;
     }
 
-    public bool DeleteAsync(string fileName)
+    public bool Delete(string fileName)
     {
         var filePath = Path.Combine(PATH, fileName);
 

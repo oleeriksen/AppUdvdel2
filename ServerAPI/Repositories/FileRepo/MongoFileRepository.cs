@@ -39,7 +39,7 @@ public class MongoFileRepository : IFileRepository
         
     }
 
-    public string AddAsync(IFormFile file)
+    public string Add(IFormFile file)
     {
         if (file == null || file.Length == 0)
             throw new ArgumentException("File is empty");
@@ -77,7 +77,7 @@ public class MongoFileRepository : IFileRepository
     }
     
 
-    public List<string> GetAllAsync()
+    public List<string> GetAll()
     {
         return _collection
             .Find(_ => true)
@@ -85,7 +85,7 @@ public class MongoFileRepository : IFileRepository
             .ToList();
     }
 
-    public (Stream Stream, string ContentType)? GetStreamAsync(string fileName)
+    public (Stream Stream, string ContentType)? GetStream(string fileName)
     {
         var doc = _collection
             .Find(x => x.FileName == fileName)
@@ -99,7 +99,7 @@ public class MongoFileRepository : IFileRepository
         return (stream, doc.ContentType);
     }
 
-    public bool DeleteAsync(string fileName)
+    public bool Delete(string fileName)
     {
         var result = _collection.DeleteOne(x => x.FileName == fileName);
         return result.DeletedCount > 0;

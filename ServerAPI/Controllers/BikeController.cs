@@ -15,12 +15,20 @@ public class BikeController : ControllerBase
         bikeRepo = repo;
     }
 
+    /// <summary>
+    /// Get an array of all bike objects.
+    /// </summary>
+    /// <returns></returns>
     [HttpGet]
     public Bike[] Get()
     {
         return bikeRepo.GetAll();
     }
 
+    /// <summary>
+    /// Add  a bike - a unique id will be assigned
+    /// </summary>
+    /// <param name="bike">the object to be added - </param>
     [HttpPost]
     public void Add(Bike bike)
     {

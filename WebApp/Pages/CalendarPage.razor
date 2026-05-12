@@ -1,0 +1,18 @@
+@page "/CalendarPage"
+@using WebApp.Components
+<h3>CalendarPage</h3>
+<CalenderComponent
+    @bind-SelectedDate="SelectedDate"
+    IsDateDisabled="DisableDate" />
+
+Selected date: @SelectedDate.ToString()
+
+@code {
+    private DateTime? SelectedDate;
+
+    private bool DisableDate(DateTime date)
+    {
+        return date.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday
+               || date < DateTime.Today;
+    }
+}

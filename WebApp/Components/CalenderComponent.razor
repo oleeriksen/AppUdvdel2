@@ -1,0 +1,98 @@
+<div class="calendar">
+    <div class="calendar-header">
+        <button @onclick="PreviousMonth">‹</button>
+        <strong>@FirstDayOfSelectedMonth.ToString("MMMM yyyy")</strong>
+        <button @onclick="NextMonth">›</button>
+    </div>
+
+    <div class="calendar-grid calendar-weekdays">
+        @foreach (var day in Weekdays)
+        {
+            <div>@day</div>
+        }
+    </div>
+
+    <div class="calendar-grid">
+        @foreach (var day in CalendarDays)
+        {
+            <button class="@GetDayClass(day)"
+                    disabled="@IsDisabled(day)"
+                    @onclick="() => SelectDate(day)">
+                @day.Day
+            </button>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public DateTime? SelectedDate { get; set; }
+    [Parameter] public EventCallback<DateTime?> SelectedDateChanged { get; set; }
+
+    [Parameter] public Func<DateTime, bool>? IsDateDisabled { get; set; }
+
+    private DateTime FirstDayOfSelectedMonth { get; set; } =
+        new(DateTime.Today.Year, DateTime.Today.Month, 1);
+
+    private string[] Weekdays = ["Man", "Tir", "Ons", "Tor", "Fre", "Lør", "Søn"];
+
+    private IEnumerable<DateTime> CalendarDays => GetCalendarDays();
+
+    private List<DateTime> GetCalendarDays()
+    {
+        List<DateTime> result = new();
+        var firstDay = FirstDayOfSelectedMonth; //new DateTime(FirstDayOfCurrentMonth.Year, FirstDayOfCurrentMonth.Month, 1);
+        var offset = ((int)firstDay.DayOfWeek + 6) % 7;
+        var startDate = firstDay.AddDays(-offset);
+
+        for (var i = 0; i < 42; i++)
+        {
+            result.Add(startDate.AddDays(i));
+        }
+
+        return result;
+    }
+
+    private bool IsDisabled(DateTime date)
+    {
+        return date.Month != FirstDayOfSelectedMonth.Month
+            || IsDateDisabled?.Invoke(date.Date) == true;
+    }
+
+    private async Task SelectDate(DateTime date)
+    {
+        if (IsDisabled(date))
+            return;
+
+        SelectedDate = date;
+        await SelectedDateChanged.InvokeAsync(SelectedDate);
+    }
+
+    private void PreviousMonth()
+    {
+        FirstDayOfSelectedMonth = FirstDayOfSelectedMonth.AddMonths(-1);
+    }
+
+    private void NextMonth()
+    {
+        FirstDayOfSelectedMonth = FirstDayOfSelectedMonth.AddMonths(1);
+    }
+
+    private string GetDayClass(DateTime date)
+    {
+        var classes = new List<string> { "calendar-day" };
+
+        if (date.Month != FirstDayOfSelectedMonth.Month)
+            classes.Add("outside-month");
+
+        if (date.Date == DateTime.Today)
+            classes.Add("today");
+
+        if (SelectedDate?.Date == date.Date)
+            classes.Add("selected");
+
+        if (IsDisabled(date))
+            classes.Add("disabled");
+
+        return string.Join(" ", classes);
+    }
+}

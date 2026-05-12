@@ -26,6 +26,8 @@
 
 @code {
     [Parameter] public DateTime? SelectedDate { get; set; }
+    
+    // will be called every time the user select a (new) date
     [Parameter] public EventCallback<DateTime?> SelectedDateChanged { get; set; }
 
     [Parameter] public Func<DateTime, bool>? IsDateDisabled { get; set; }
@@ -33,15 +35,25 @@
     private DateTime FirstDayOfSelectedMonth { get; set; } =
         new(DateTime.Today.Year, DateTime.Today.Month, 1);
 
+    // Headings for the 7 col's of the calendar
     private string[] Weekdays = ["Man", "Tir", "Ons", "Tor", "Fre", "Lør", "Søn"];
 
     private IEnumerable<DateTime> CalendarDays => GetCalendarDays();
 
+    /// <summary>
+    /// Compute a list of 42 (6 weeks of 7 days each) days containing the selected month
+    /// </summary>
     private List<DateTime> GetCalendarDays()
     {
         List<DateTime> result = new();
-        var firstDay = FirstDayOfSelectedMonth; //new DateTime(FirstDayOfCurrentMonth.Year, FirstDayOfCurrentMonth.Month, 1);
-        var offset = ((int)firstDay.DayOfWeek + 6) % 7;
+        var firstDay = FirstDayOfSelectedMonth; 
+        
+        // number of days before the first of the selected day
+        // dayOfWeek = 1 => offset = 0
+        // dayOfWeek = 2 => offset = 1
+        var offset = (int)firstDay.DayOfWeek - 1; 
+        if (offset == -1) // sunday!
+            offset = 6;
         var startDate = firstDay.AddDays(-offset);
 
         for (var i = 0; i < 42; i++)
@@ -54,6 +66,7 @@
 
     private bool IsDisabled(DateTime date)
     {
+        // check for month and the external function
         return date.Month != FirstDayOfSelectedMonth.Month
             || IsDateDisabled?.Invoke(date.Date) == true;
     }
@@ -77,6 +90,9 @@
         FirstDayOfSelectedMonth = FirstDayOfSelectedMonth.AddMonths(1);
     }
 
+    /// <summary>
+    /// return the name of the css class to be used for [date]
+    /// </summary>
     private string GetDayClass(DateTime date)
     {
         var classes = new List<string> { "calendar-day" };
